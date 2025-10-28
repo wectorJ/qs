@@ -3,10 +3,10 @@ let questions_container = document.getElementById('questions_container');
 let save_button = document.getElementById('save_questions_btn');
 let quiz_title_input = document.getElementById('quiz_title');
 
-save_button.addEventListener('click', function() {
-    save_quiz_to_storage();
-    alert('Questions saved successfully!');
-});
+// save_button.addEventListener('click', function() {
+//     save_quiz_to_storage();
+//     alert('Questions saved successfully!');
+// });
 
 add_question_button.addEventListener('click', function() {
     // Only count actual questions, not nested elements
@@ -187,4 +187,4 @@ function load_quiz_from_storage() {
 }
 
 
-export default load_quiz_from_storage;
+// export default load_quiz_from_storage;
