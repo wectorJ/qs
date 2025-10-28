@@ -1,4 +1,4 @@
-{
+const quizData = {
     "quizTitle": "Sample Quiz",
     "questions": [
         {
@@ -22,4 +22,5 @@
         "correctOptionIndex": 1
         }
     ]
-}
+};
+
