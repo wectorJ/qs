@@ -1,9 +1,12 @@
-const quizData = {
+const quizData = 
+{
     "quizTitle": "Sample Quiz",
-    "questions": [
+    "questions": 
+    [
         {
         "questionText": "What is the capital of France?",
-        "options": [
+        "options": 
+        [
             "Berlin",
             "Madrid",
             "Paris",
@@ -13,12 +16,14 @@ const quizData = {
         },
         {
         "questionText": "Which planet is known as the Red Planet?",
-        "options": [
+        "options": 
+        [
             "Earth",
             "Mars",
             "Jupiter",
             "Saturn"
         ],
+        
         "correctOptionIndex": 1
         }
     ]
