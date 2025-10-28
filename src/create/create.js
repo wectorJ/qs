@@ -3,10 +3,10 @@ let questions_container = document.getElementById('questions_container');
 let save_button = document.getElementById('save_questions_btn');
 let quiz_title_input = document.getElementById('quiz_title');
 
-// save_button.addEventListener('click', function() {
-//     save_quiz_to_storage();
-//     alert('Questions saved successfully!');
-// });
+save_button.addEventListener('click', function() {
+    save_quiz_to_storage();
+    console.log('Questions saved successfully!');
+});
 
 add_question_button.addEventListener('click', function() {
     // Only count actual questions, not nested elements
@@ -91,11 +91,11 @@ function create_question_element(question_number) {
     correct_input.type = 'number';
     correct_input.id = `correct_option_${question_number}`;
     correct_input.name = `correct_option_${question_number}`;
-    correct_input.placeholder = '1';
+    correct_input.value = 1;
     correct_input.min = 1;
     correct_input.required = true;
 
-    question_div.appendChild(document.createElement('br'));
+    // question_div.appendChild(document.createElement('br'));
     question_div.appendChild(correct_label);
     question_div.appendChild(correct_input);
 
@@ -138,7 +138,7 @@ function save_quiz_to_storage() {
     document.querySelectorAll('.question').forEach((qDiv, index) => {
         let questionText = qDiv.querySelector(`#question_${index + 1}_text`).value.trim();
 
-        // ✅ define options array before using it
+        // define options array before using it
         let options = [];
         qDiv.querySelectorAll('.options_container input').forEach(opt => {
             options.push(opt.value.trim());
@@ -161,8 +161,8 @@ function save_quiz_to_storage() {
         questions: questions
     };
 
-    localStorage.setItem('quizData', JSON.stringify(quizData));
-    alert('Quiz saved to localStorage!');
+    localStorage.setItem(`quizData_${quizData.quizTitle}`, JSON.stringify(quizData));
+    alert(`Quiz ${quizData.quizTitle} saved to localStorage!`);
 }
 
 function load_quiz_from_storage() {
