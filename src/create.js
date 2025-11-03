@@ -165,26 +165,3 @@ function save_quiz_to_storage() {
     alert(`Quiz ${quizData.quizTitle} saved to localStorage!`);
 }
 
-function load_quiz_from_storage() {
-    let savedData = localStorage.getItem('quizData');
-    if (!savedData) return; // no quiz saved
-
-    let quiz = JSON.parse(savedData);
-
-    // Set quiz title
-    if (quiz.quizTitle) quiz_title_input.value = quiz.quizTitle;
-
-    // Clear current questions first
-    questions_container.innerHTML = '';
-
-    // Rebuild all saved questions
-    quiz.questions.forEach((q, i) => {
-        let question_element = create_question_element(i + 1, q);
-        questions_container.appendChild(question_element);
-    });
-
-    console.log(JSON.parse(localStorage.getItem('quizData')));
-}
-
-
-// export default load_quiz_from_storage;
