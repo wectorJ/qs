@@ -30,7 +30,9 @@ function deleteQuiz(key) {
 
 function editQuiz(key) {
     console.log("Editing quiz:", key);
+    
     // Add editing, I AM TOO LAZY TO DO IT
+
 }
 
 loadQuizzes();
