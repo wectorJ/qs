@@ -9,7 +9,6 @@ save_button.addEventListener('click', function() {
 });
 
 add_question_button.addEventListener('click', function() {
-    // Only count actual questions, not nested elements
     let current_question_count = questions_container.querySelectorAll('.question').length;
     let new_question_number = current_question_count + 1;
     let new_question_element = create_question_element(new_question_number);
@@ -51,7 +50,7 @@ function create_question_element(question_number) {
     options_container.id = `options_${question_number}_container`;
     options_container.className = 'options_container';
 
-    // Default: two options
+
     for (let i = 1; i <= 2; i++) {
         let option_div = document.createElement('div');
         option_div.id = `question_${question_number}_option_${i}`;

@@ -5,7 +5,6 @@ let quizName = localStorage.getItem('currentQuiz');
 const quiz = JSON.parse(localStorage.getItem(quizName));
 console.log(quiz);
 
-// Функция для отображения викторины
 function displayQuiz() {
     const container = document.getElementById('quiz_container');
     container.innerHTML = `<h2>${quiz.quizTitle}</h2>`;
@@ -14,7 +13,6 @@ function displayQuiz() {
         const questionDiv = document.createElement('div');
         questionDiv.className = 'question';
 
-        // Build question block
         questionDiv.innerHTML = `
             <h3>Question ${index + 1}: ${question.questionText}</h3>
             ${question.options.map((option, optIndex) => `
@@ -28,7 +26,6 @@ function displayQuiz() {
     });
 }
 
-// Функция для проверки ответов
 function checkAnswers() {
     let score = 0;
     quiz.questions.forEach((question, index) => {
@@ -38,8 +35,10 @@ function checkAnswers() {
         }
     });
     document.getElementById('results').innerHTML = `Your score: ${score} out of ${quiz.questions.length}`;
+    
+    localStorage.setItem('quizResult_' + quizName, score);
+
 }
 
-// Инициализация
 displayQuiz();
 document.getElementById('submit_quiz').addEventListener('click', checkAnswers);

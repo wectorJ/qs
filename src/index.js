@@ -2,6 +2,7 @@ import { addSampleQuizes } from './add_sample_quizes.js';
 
 const createButton = document.getElementById('create')
 const manageButton = document.getElementById('manage')
+const resulstsButton = document.getElementById('results')
 
 document.addEventListener("DOMContentLoaded", function() {
     console.log("DOM is ready!");
@@ -16,6 +17,9 @@ manageButton.addEventListener('click', function(){
     window.location.href = 'manage.html'
 });
 
+resulstsButton.addEventListener('click', function(){
+    window.location.href = 'results.html'
+});
 
 const quizKeys = Object.keys(localStorage).filter(key => key.startsWith('quizData_'));
 const quizButtonsContainer = document.getElementById('quiz_buttons_container');
@@ -28,7 +32,7 @@ function showQuizButtons() {
         button.textContent = quizData.quizTitle;
         button.addEventListener('click', function() {
             localStorage.setItem('currentQuiz', key);
-            window.location.href = 'src/test.html';
+            window.location.href = 'quize.html';
         });
         quizList.appendChild(button);
     });

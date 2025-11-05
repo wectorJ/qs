@@ -1,6 +1,6 @@
 function loadQuizzes() {
     const quizListDiv = document.getElementById("quiz_list");
-    quizListDiv.innerHTML = "<h3>Saved Quizzes</h3>";
+    quizListDiv.innerHTML = "<h2>Availible Quizzes</h2>";
 
     const allKeys = Object.keys(localStorage);
     const quizKeys = allKeys.filter((key) => key.startsWith("quizData_"));
@@ -25,6 +25,7 @@ function loadQuizzes() {
 
 function deleteQuiz(key) {
     localStorage.removeItem(key);
+    localStorage.removeItem('quizResult_' + key);
     loadQuizzes(); 
 }
 
