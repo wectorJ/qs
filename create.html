@@ -7,5 +7,19 @@
 </head>
 <body>
     <h1>Create a New Quiz</h1>
+    <form id="create-quiz-form">
+        <label for="quiz-title">Quiz Title:</label><br>
+        <input type="text" id="quiz-title" name="quiz-title" required><br><br>
+
+        <label for="quiz-description">Quiz Description:</label><br>
+        <textarea id="quiz-description" name="quiz-description" required></textarea><br><br>
+
+        <button type="submit">Create Quiz</button>
+    </form>
+
+    <button onclick="location.href='index.html'">Back to Main Menu</button>
+    <div id="footer"></div>
+
+    <script src="js/footer.js"></script>
 </body>
 </html>

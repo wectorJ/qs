@@ -1,20 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="eng">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quize Main</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Quiz Main</title>
+    <style>
+        #menu-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        #menu-container {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 220px;
+            margin-top: 8px;
+            padding: 12px;
+            background: #ffffff;
+            border: 1px solid #cccccc;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        #menu-container[hidden] {
+            display: none;
+        }
+
+        #menu-container ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #menu-container li + li {
+            margin-top: 8px;
+        }
+
+        #menu-container button {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <h1>Welcome to the Quiz Application</h1>
-    <p>Please select an option below:</p>
-    <ul>
-        <li><a href="create.html"><button>Create a New Quiz</button></a></li>
-        <li><a href="manage.html"><button>Manage Quiz</button></a></li>
-        <li><a href="quiz.html"><button>Take a Quiz</button></a></li>
-        <li><a href="results.html"><button>View Quizzes Results</button></a></li>
-    </ul>
+    <div id="menu-wrapper">
+        <button id="menu-button" type="button">Menu</button>
+        <div id="menu-container" hidden>
+            <p>Please select an option below:</p>
+            <ul>
+                <li><a href="../create.html"><button>Create a New Quiz</button></a></li>
+                <li><a href="../manage.html"><button>Manage Quiz</button></a></li>
+                <li><a href="../quiz.html"><button>
+                    <span style="text-decoration:line-through">Take a Quiz</span> Will be in quizzes list in this page
+                </button></a></li>
+                <li><a href="../results.html"><button>View Quizzes Results</button></a></li>
+            </ul>
+        </div>
+    </div>
     <p>Your quizzes are listed below:</p>
     <div id="quiz-list"></div>
+    <div id="footer"></div>
+
+    <script src="js/footer.js"></script>
+    <script src="js/menu.js"></script>
 </body>
 </html>
