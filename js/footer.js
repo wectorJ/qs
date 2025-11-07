@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		return;
 	}
 
-	fetch('../psevdocomponents/footer.html')
+	fetch('./psevdocomponents/footer.html')
 		.then((response) => response.text())
 		.then((html) => {
 			footerContainer.innerHTML = html;
