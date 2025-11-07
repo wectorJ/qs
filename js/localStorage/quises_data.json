@@ -4,6 +4,7 @@
         {
             "id": 1,
             "title": "Basic Math Quiz",
+            "description": "A simple quiz to test your basic math skills.",
             "questions": [
                 {
                     "question": "What is 2 + 2?",
@@ -20,6 +21,7 @@
         {
             "id": 2,
             "title": "General Knowledge Quiz",
+            "description": "Test your general knowledge with this quiz.",
             "questions": [
                 {
                     "question": "What is the capital of France?",
