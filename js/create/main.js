@@ -2,15 +2,15 @@ import { loadFromLocalStorage, saveToLocalStorage } from "../localStorage/localS
 
 
 
-const createQuizBtn = document.getElementById('create-quiz-btn');
 const quizTitleInput = document.getElementById('quiz-title');
 const quizDescriptionInput = document.getElementById('quiz-description');
 const questionsContainer = document.getElementById('questions-container');
+
+const createQuizBtn = document.getElementById('create-quiz-btn');
 const addQuestionBtn = document.getElementById('add-question-btn');
 const removeQuestionBtn = document.getElementById('remove-question-btn');
 
 
-let addOptionBtn;
 let template_question;
 let template_option;
 
@@ -44,9 +44,16 @@ loadTemplates().then(() => {
 function addQuestionField() {
   const question = template_question.content.cloneNode(true);
   const questionText = question.querySelector('.question-text');
+  const questionTextInput = question.querySelector('.question-text-input');
+
   const questionCount = questionsContainer.children.length + 1;
 
   questionText.textContent = `Question ${questionCount}`;
+  questionTextInput.placeholder = `Question ${questionCount}`;
+  questionTextInput.name = `question-text-${questionCount}`;
+
+
+
 
   const optionList = question.querySelector('.options-list');
   // optionList.appendChild(option);
@@ -96,54 +103,70 @@ function removeQuestionField() {
 
 
 
-export function addQuestionToQuiz(quizID, questionText, options, answer, value = 1) {
-  const data = loadFromLocalStorage();
-
-  const quiz = data.quizes.find(q => q.id === quizID);
-
-  const newQuestion = new QuizQuestion(questionText, options, answer, value);
-  quiz.questions.push(newQuestion);
 
 
-  saveToLocalStorage(data); 
-}
-
-export function createNewQuiz(title, description) {
+export function createNewQuiz() {
+  // Load data or initialize new structure
   const data = loadFromLocalStorage() || { current_quiz_id: 0, quizes: [] };
 
-  const newQuizID = data.current_quiz_id + 1;
+  // Get title & description
+  const title = quizTitleInput.value.trim() || 'Untitled Quiz';
+  const description = quizDescriptionInput.value.trim() || 'No description provided.';
 
-  const questionsQuiz = new QuizQuestion("Sample Question", ["Option 1", "Option 2", "Option 3"], "Option 1", 1);
-  
-  
-  const newQuiz = new Quiz(newQuizID, title, description, questionsQuiz ? [questionsQuiz] : []);  
-  
+  const questionElements = questionsContainer.querySelectorAll(':scope > div');
+  const questions = [];
 
-  const li = document.createElement('quiz');
-  li.innerHTML = `
-    {
-      "id": ${newQuizID},
-      "title": "${title}",
-      "description": "${description}",
-      "questions": []
+  questionElements.forEach((questionElement) => {
+    const questionText = questionElement.querySelector('.question-text-input')?.value.trim() || 'Untitled Question';
+    const optionElements = questionElement.querySelectorAll('.option-item');
+
+    const options = [];
+    let correctAnswer = null;
+
+    optionElements.forEach((optionElement, index) => {
+      const optionText = optionElement.querySelector('.option-text-input')?.value.trim() || `Option ${index + 1}`;
+      options.push(optionText);
+
+      const radioInput = optionElement.querySelector('.radio-option-input-button');
+      if (radioInput?.checked) {
+        correctAnswer = optionText;
+      }
+    });
+
+    // Default correct answer if none selected
+    if (!correctAnswer && options.length > 0) {
+      correctAnswer = options[0];
     }
-  `;
 
+    questions.push({
+      question: questionText,
+      options: options,
+      answer: correctAnswer,
+      value: 1
+    });
+  });
 
-  data.quizes.push(li);
-  data.current_quiz_id = newQuizID;
+  // Create new quiz
+  const newQuiz = {
+    id: data.current_quiz_id + 1,
+    title,
+    description,
+    questions
+  };
+
+  // Save to localStorage
+  data.current_quiz_id += 1;
+  data.quizes.push(newQuiz);
   saveToLocalStorage(data);
 
-  return newQuizID;
 }
+
+
 
 
 
 if (createQuizBtn) {
   createQuizBtn.addEventListener('click', () => {
-    const title = quizTitleInput.value.trim();
-    const description = quizDescriptionInput.value.trim();
-
-    const newQuizID = createNewQuiz(title, description);
+    createNewQuiz();
   });
 }
