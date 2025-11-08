@@ -4,32 +4,38 @@
         {
             "id": 1,
             "title": "Basic Math Quiz",
+            "description": "This quiz covers fundamental arithmetic operations.",
             "questions": [
                 {
                     "question": "What is 2 + 2?",
                     "options": ["3", "4", "5", "6"],
-                    "answer": "4"
+                    "answer": "4",
+                    "value": 1
                 },
                 {
                     "question": "What is 5 * 6?",
                     "options": ["30", "11", "56", "60"],
-                    "answer": "30"
+                    "answer": "30",
+                    "value": 1
                 }
             ]
         },
         {
             "id": 2,
             "title": "General Knowledge Quiz",
+            "description": "This quiz tests your general knowledge on various topics.",
             "questions": [
                 {
                     "question": "What is the capital of France?",
                     "options": ["Berlin", "Madrid", "Paris", "Rome"],
-                    "answer": "Paris"
+                    "answer": "Paris",
+                    "value": 1
                 },
                 {
                     "question": "Who wrote 'Hamlet'?",
                     "options": ["Charles Dickens", "William Shakespeare", "Mark Twain", "Jane Austen"],
-                    "answer": "William Shakespeare"
+                    "answer": "William Shakespeare",
+                    "value": 10
                 }
             ]
         }

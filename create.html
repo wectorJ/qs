@@ -14,12 +14,27 @@
         <label for="quiz-description">Quiz Description:</label><br>
         <textarea id="quiz-description" name="quiz-description" required></textarea><br><br>
 
-        <button type="submit">Create Quiz</button>
+        <hr>
+
+        <div>
+            <h2>Questions</h2>
+            <div id="questions-container">
+                <!-- Questions will be added here dynamically -->
+            </div>
+            <button type="button" id="add-question-btn">Add Question</button> <button type="button" id="remove-question-btn">Remove Question</button>
+        </div>
+
+        <button  id="create-quiz-btn">Create Quiz</button>
     </form>
 
     <button onclick="location.href='index.html'">Back to Main Menu</button>
     <div id="footer"></div>
 
-    <script src="js/footer.js"></script>
+
+
+
+    <!-- Scripts -->
+    <script src="js/footer"></script>
+    <script type="module" src="./js/create/main.js"></script>
 </body>
 </html>
