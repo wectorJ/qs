@@ -5,6 +5,7 @@
             "id": 1,
             "title": "Basic Math Quiz",
             "description": "This quiz covers fundamental arithmetic operations.",
+            "description": "A simple quiz to test your basic math skills.",
             "questions": [
                 {
                     "question": "What is 2 + 2?",
@@ -23,7 +24,7 @@
         {
             "id": 2,
             "title": "General Knowledge Quiz",
-            "description": "This quiz tests your general knowledge on various topics.",
+            "description": "Test your general knowledge with this quiz.",
             "questions": [
                 {
                     "question": "What is the capital of France?",
