@@ -116,6 +116,21 @@ export function createNewQuiz() {
   const questionElements = questionsContainer.querySelectorAll(':scope > div');
   const questions = [];
 
+
+  if (questionElements.length === 0) {
+    alert('Please add at least one question to create a quiz.');
+    return;
+  }
+  if (title === 'Untitled Quiz') {
+    alert('Please provide a title for the quiz.');
+    return;
+  }
+  if (description === 'No description provided.') {
+    alert('Please provide a description for the quiz.');
+    return;
+  }
+  
+
   questionElements.forEach((questionElement) => {
     const questionText = questionElement.querySelector('.question-text-input')?.value.trim() || 'Untitled Question';
     const optionElements = questionElement.querySelectorAll('.option-item');

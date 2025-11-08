@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Create a New Quiz</h1>
-    <form id="create-quiz-form">
+    <form id="create-quiz-form" method="post">
         <label for="quiz-title">Quiz Title:</label><br>
         <input type="text" id="quiz-title" name="quiz-title" required><br><br>
 
@@ -24,7 +24,7 @@
             <button type="button" id="add-question-btn">Add Question</button> <button type="button" id="remove-question-btn">Remove Question</button>
         </div>
 
-        <button  id="create-quiz-btn">Create Quiz</button>
+        <button type="button" id="create-quiz-btn">Create Quiz</button>
     </form>
 
     <button onclick="location.href='index.html'">Back to Main Menu</button>
