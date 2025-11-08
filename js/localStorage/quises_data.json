@@ -4,7 +4,6 @@
         {
             "id": 1,
             "title": "Basic Math Quiz",
-            "description": "This quiz covers fundamental arithmetic operations.",
             "description": "A simple quiz to test your basic math skills.",
             "questions": [
                 {

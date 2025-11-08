@@ -1,3 +1,5 @@
+import { loadFromLocalStorage } from "../js/localStorage/localStorageManager.js";
+
 class QuizBox extends HTMLElement {
 	set quiz(value) {
 		this._quiz = value;
@@ -42,13 +44,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 	}
 
 	try {
-		const response = await fetch('js/localStorage/quises_data.json');
+		//const response = await fetch('js/localStorage/quises_data.json');
 
-		if (!response.ok) {
-			throw new Error(`Failed to load quises_data.json: ${response.status}`);
-		}
+		// if (!response.ok) {
+		// 	throw new Error(`Failed to load quises_data.json: ${response.status}`);
+		// }
 
-		const data = await response.json();
+		// const data = await response.json();
+		const data = loadFromLocalStorage();
 		const quizes = Array.isArray(data?.quizes) ? data.quizes : [];
 
 		if (!quizes.length) {
