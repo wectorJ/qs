@@ -11,14 +11,22 @@ class QuizBox extends HTMLElement {
 			return;
 		}
 
-		const { title, questions, description } = this._quiz;
+		const { id, title, questions, description } = this._quiz;
 		const wrapper = document.createElement('article');
 		wrapper.className = 'quiz-card';
 		const heading = document.createElement('h2');
+		const titleLink = document.createElement('a');
 		const questionInfo = document.createElement('p');
 		const descriptionInfo = document.createElement('p');
 
-		heading.textContent = title || 'Untitled quiz';
+		titleLink.textContent = title || 'Untitled quiz';
+		if (typeof id === 'number' || typeof id === 'string') {
+			const encodedId = encodeURIComponent(id);
+			titleLink.href = `./quiz.html?id=${encodedId}`;
+		} else {
+			titleLink.href = './quiz.html';
+		}
+		heading.appendChild(titleLink);
 		const questionsCount = Array.isArray(questions) ? questions.length : 0;
 		questionInfo.textContent = `Count of questions: ${questionsCount}`;
 		descriptionInfo.textContent = description || 'No description available.';
