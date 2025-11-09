@@ -10,6 +10,12 @@ const createQuizBtn = document.getElementById('create-quiz-btn');
 const addQuestionBtn = document.getElementById('add-question-btn');
 const removeQuestionBtn = document.getElementById('remove-question-btn');
 
+const data = loadFromLocalStorage();
+
+data.currect_question_number = 1;
+data.currect_option_number = { };
+
+saveToLocalStorage(data);
 
 let template_question;
 let template_option;
@@ -33,20 +39,26 @@ loadTemplates().then(() => {
     addQuestionField();
   }); 
 
-  removeQuestionBtn.addEventListener('click', () => {
-    removeQuestionField();
-  });
+  // removeQuestionBtn.addEventListener('click', () => {
+  //   removeQuestionField();
+  // });
 
 
 });
 
 
 function addQuestionField() {
+  const data = loadFromLocalStorage();
+
+  // const questionCount = questionsContainer.children.length + 1;
+  const questionCount = data.currect_question_number;
+  data.currect_question_number += 1; 
+  saveToLocalStorage(data);
+
   const question = template_question.content.cloneNode(true);
   const questionText = question.querySelector('.question-text');
   const questionTextInput = question.querySelector('.question-text-input');
 
-  const questionCount = questionsContainer.children.length + 1;
 
   questionText.textContent = `Question ${questionCount}`;
   questionTextInput.placeholder = `Question ${questionCount}`;
@@ -66,6 +78,14 @@ function addQuestionField() {
     addOption(optionList, questionCount);
   });
 
+  const removeQuestionBtn = question.querySelector('.delete-question-button');
+  removeQuestionBtn.addEventListener('click', (event) => {
+    const questionItem = event.target.closest('.question-item');
+    if (questionItem) {
+      questionItem.remove();
+    }
+  });
+
   // const removeOptionBtn = question.querySelector('.remove-option-btn');
   // removeOptionBtn.addEventListener('click', () => {
   //   removeOption(optionList);
@@ -76,7 +96,12 @@ function addQuestionField() {
 
 
 function addOption(optionListContainer, questionNumber) {
-  const optionNumber = optionListContainer.children.length + 1;
+
+  
+
+  const optionNumber = getQuestionOptionCount(questionNumber);
+  saveQuestionOptionCount(questionNumber, optionNumber);
+
   const option = template_option.content.cloneNode(true);
   const deleteOptionBtn = option.querySelector('.delete-option-button');
   deleteOptionBtn.name = `delete-option-${optionNumber}`;
@@ -93,6 +118,17 @@ function addOption(optionListContainer, questionNumber) {
   option.querySelector('.radio-option-input-button').name = `choice ${questionNumber}`;
   
   optionListContainer.appendChild(option);
+}
+
+function saveQuestionOptionCount(questionNumber, optionCount){
+  const data = loadFromLocalStorage();
+  data.currect_option_number[questionNumber] = optionCount+1 || 1;
+  saveToLocalStorage(data);
+}
+
+function getQuestionOptionCount(questionNumber){
+  const data = loadFromLocalStorage();
+  return data.currect_option_number?.[questionNumber] ?? 1;
 }
 
 function removeOption(optionListContainer) {
@@ -139,6 +175,7 @@ export function createNewQuiz() {
     alert('Please provide a description for the quiz.');
     return;
   }
+
   
 
   questionElements.forEach((questionElement) => {
@@ -183,6 +220,7 @@ export function createNewQuiz() {
   data.current_quiz_id += 1;
   data.quizes.push(newQuiz);
   saveToLocalStorage(data);
+  window.location.href = "./index.html";
 
 }
 
