@@ -72,9 +72,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
+        listContainer.textContent = 'No quiz done :(';
+
         // Display only quizzes that have a result
         quizes.forEach((quiz) => {
             if (quiz.result) {
+                listContainer.textContent = '';
                 const quizElement = document.createElement('quiz-result-box');
                 quizElement.quiz = quiz;
                 listContainer.appendChild(quizElement);
