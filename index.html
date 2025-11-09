@@ -7,23 +7,21 @@
     <link rel="stylesheet" href="./style/index.css">
 </head>
 <body>
-    <h1>Welcome to the Quiz Application</h1>
-    <div id="menu-wrapper">
-        <button id="menu-button" type="button">Menu</button>
-        <div id="menu-container" hidden>
-            <p>Please select an option below:</p>
-            <ul>
-                <li><a href="./create.html"><button>Create a New Quiz</button></a></li>
-                <li><a href="./manage.html"><button>Manage Quiz</button></a></li>
-                <li><a href="./quiz.html"><button>
-                    <span style="text-decoration:line-through">Take a Quiz</span> Will be in quizzes list in this page
-                </button></a></li>
-                <li><a href="./results.html"><button>View Quizzes Results</button></a></li>
-            </ul>
+    <div class="container">
+        <div id="menu">
+            <p class="menu-literaly" id="menuLiteraly">Menu</p><br><br>
+            <button class="quiz-button" id="createButton"><p class="menu-text">Create a New Quiz</p></button>
+            <button class="quiz-button" id="manageButton"><p  class="menu-text">Manage Quiz</p></button>
+            <button class="quiz-button" id="resultsButton"><p class="menu-text">View Quizzes Results</p></button>
+        </div>
+
+        <div id="main-part">
+            <p id="welcome-quote">Welcome to the Quiz Application</p>
+            <br><p id="quizzes-quote">Your quizzes are listed below:</p>
+            <div id="quiz-list"></div>
         </div>
     </div>
-    <p>Your quizzes are listed below:</p>
-    <div id="quiz-list"></div>
+
     <div id="footer"></div>
 
     <script type="module" src="js/quize-box.js"></script>
