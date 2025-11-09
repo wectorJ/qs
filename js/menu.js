@@ -1,23 +1,20 @@
-document.addEventListener('DOMContentLoaded', () => {
-	const button = document.getElementById('menu-button');
-	const menu = document.getElementById('menu-container');
+const createButton = document.getElementById('createButton');
+const manageButton = document.getElementById('manageButton');
+const resultsButton = document.getElementById('resultsButton');
+const menuLiteraly = document.getElementById('menuLiteraly');
 
-	if (!button || !menu) {
-		return;
-	}
+createButton.addEventListener('click', function() {
+    window.location.href = "./create.html";
+})
 
-	button.addEventListener('click', (event) => {
-		event.stopPropagation();
-		menu.hidden = !menu.hidden;
-	});
+manageButton.addEventListener('click', function() {
+    window.location.href = "./manage.html";
+})
 
-	menu.addEventListener('click', (event) => {
-		event.stopPropagation();
-	});
+resultsButton.addEventListener('click', function() {
+    window.location.href = "./results.html";
+})
 
-	document.addEventListener('click', () => {
-		if (!menu.hidden) {
-			menu.hidden = true;
-		}
-	});
-});
+menuLiteraly.addEventListener('click', function() {
+    window.location.href = "https://youtu.be/dQw4w9WgXcQ?si=ikjNhtlICjVDam4U";
+})
