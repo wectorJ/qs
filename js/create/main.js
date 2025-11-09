@@ -66,10 +66,10 @@ function addQuestionField() {
     addOption(optionList, questionCount);
   });
 
-  const removeOptionBtn = question.querySelector('.remove-option-btn');
-  removeOptionBtn.addEventListener('click', () => {
-    removeOption(optionList);
-  });
+  // const removeOptionBtn = question.querySelector('.remove-option-btn');
+  // removeOptionBtn.addEventListener('click', () => {
+  //   removeOption(optionList);
+  // });
 
   questionsContainer.appendChild(question); 
 }
@@ -78,6 +78,16 @@ function addQuestionField() {
 function addOption(optionListContainer, questionNumber) {
   const optionNumber = optionListContainer.children.length + 1;
   const option = template_option.content.cloneNode(true);
+  const deleteOptionBtn = option.querySelector('.delete-option-button');
+  deleteOptionBtn.name = `delete-option-${optionNumber}`;
+
+  deleteOptionBtn.addEventListener('click', () => {
+    if (optionListContainer.children.length > 1) {
+      // optionListContainer.content.removeChild(optionListContainer[optionListContainer.children.length - 1]);
+      optionListContainer.removeChild(deleteOptionBtn.closest('.option-item'));
+      // console.log(optionListContainer[0]);
+    }
+  });
 
   option.querySelector('.option-text-input').placeholder = `Option ${optionNumber}`;
   option.querySelector('.radio-option-input-button').name = `choice ${questionNumber}`;
