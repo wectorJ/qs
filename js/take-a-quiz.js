@@ -165,11 +165,12 @@ function saveQuizResult(quiz, score) {
 		completedAt: new Date().toISOString(),
 	};
 
-	data.quizes[quiz.id-1].result = results[quiz.id-1];
+	// results.push(entry);
+	data.quizes[quiz.id-1].result = entry;
 	saveToLocalStorage(data);
 
-	results.push(entry);
-	localStorage.setItem(QUIZ_RESULTS_KEY, JSON.stringify(results));
+	
+	// localStorage.setItem(QUIZ_RESULTS_KEY, JSON.stringify(results));
 
 	
 	return entry;

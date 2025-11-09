@@ -12,7 +12,7 @@ manageButton.addEventListener('click', function() {
 })
 
 resultsButton.addEventListener('click', function() {
-    window.location.href = "./results.html";
+    window.location.href = "./result.html";
 })
 
 menuLiteraly.addEventListener('click', function() {
