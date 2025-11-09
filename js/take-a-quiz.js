@@ -128,6 +128,7 @@ function setupSubmitHandler(form, quiz, resultMessage) {
 		try {
 			saveQuizResult(quiz, score);
 			resultMessage.textContent += ' Result saved.';
+			submitButton.disabled = true;
 		} catch (storageError) {
 			console.error('Failed to persist quiz result:', storageError);
 		}
@@ -156,8 +157,8 @@ function saveQuizResult(quiz, score) {
 	}
 	const results = loadQuizResults();
 	const entry = {
-		// quizId: quiz.id ?? null,
-		//title: quiz.title ?? 'Untitled quiz',
+		quizId: quiz.id ?? null,
+		title: quiz.title ?? 'Untitled quiz',
 		correct: score.correct,
 		total: score.total,
 		percentage: score.total ? Math.round((score.correct / score.total) * 100) : 0,
@@ -166,7 +167,11 @@ function saveQuizResult(quiz, score) {
 
 	data.quizes[quiz.id-1].result = results[quiz.id-1];
 	saveToLocalStorage(data);
-	//localStorage.setItem(QUIZ_RESULTS_KEY, JSON.stringify(results));
+
+	results.push(entry);
+	localStorage.setItem(QUIZ_RESULTS_KEY, JSON.stringify(results));
+
+	
 	return entry;
 }
 
