@@ -1,4 +1,4 @@
-import { loadFromLocalStorage } from './localStorage/localStorageManager.js';
+import { loadFromLocalStorage, saveToLocalStorage } from './localStorage/localStorageManager.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
 	const container = document.getElementById('quiz');
@@ -128,6 +128,7 @@ function setupSubmitHandler(form, quiz, resultMessage) {
 		try {
 			saveQuizResult(quiz, score);
 			resultMessage.textContent += ' Result saved.';
+			submitButton.disabled = true;
 		} catch (storageError) {
 			console.error('Failed to persist quiz result:', storageError);
 		}
@@ -150,6 +151,10 @@ function evaluateQuiz(form, questions) {
 const QUIZ_RESULTS_KEY = 'quizResults';
 
 function saveQuizResult(quiz, score) {
+	const data = loadFromLocalStorage();
+	if (!data) {
+		throw new Error('No local storage data available to save quiz result.');
+	}
 	const results = loadQuizResults();
 	const entry = {
 		quizId: quiz.id ?? null,
@@ -160,8 +165,14 @@ function saveQuizResult(quiz, score) {
 		completedAt: new Date().toISOString(),
 	};
 
-	results.push(entry);
-	localStorage.setItem(QUIZ_RESULTS_KEY, JSON.stringify(results));
+	// results.push(entry);
+	data.quizes[quiz.id-1].result = entry;
+	saveToLocalStorage(data);
+
+	
+	// localStorage.setItem(QUIZ_RESULTS_KEY, JSON.stringify(results));
+
+	
 	return entry;
 }
 

@@ -21,12 +21,19 @@ class QuizBox extends HTMLElement {
 		const questionInfo = document.createElement('p');
 		const descriptionInfo = document.createElement('p');
 
-		titleLink.textContent = title || 'Untitled quiz';
+		titleLink.textContent = title || 'Untitled q	uiz';
+		let quizHref = './quiz.html';
 		if (typeof id === 'number' || typeof id === 'string') {
 			const encodedId = encodeURIComponent(id);
 			titleLink.href = `./quiz.html?id=${encodedId}`;
+
+			wrapper.style.cursor = 'pointer';
+			wrapper.addEventListener('click', () => {
+				window.location.href = quizHref +`?id=${encodedId}`;
+			});
+			
 		} else {
-			titleLink.href = './quiz.html';
+			titleLink.href = quizHref;
 		}
 		heading.appendChild(titleLink);
 		const questionsCount = Array.isArray(questions) ? questions.length : 0;
@@ -36,6 +43,7 @@ class QuizBox extends HTMLElement {
 		wrapper.appendChild(heading);
 		wrapper.appendChild(questionInfo);
 		wrapper.appendChild(descriptionInfo);
+
 		this.appendChild(wrapper);
 	}
 }
