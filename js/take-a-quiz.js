@@ -1,4 +1,4 @@
-import { loadFromLocalStorage } from './localStorage/localStorageManager.js';
+import { loadFromLocalStorage, saveToLocalStorage } from './localStorage/localStorageManager.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
 	const container = document.getElementById('quiz');
@@ -150,18 +150,23 @@ function evaluateQuiz(form, questions) {
 const QUIZ_RESULTS_KEY = 'quizResults';
 
 function saveQuizResult(quiz, score) {
+	const data = loadFromLocalStorage();
+	if (!data) {
+		throw new Error('No local storage data available to save quiz result.');
+	}
 	const results = loadQuizResults();
 	const entry = {
-		quizId: quiz.id ?? null,
-		title: quiz.title ?? 'Untitled quiz',
+		// quizId: quiz.id ?? null,
+		//title: quiz.title ?? 'Untitled quiz',
 		correct: score.correct,
 		total: score.total,
 		percentage: score.total ? Math.round((score.correct / score.total) * 100) : 0,
 		completedAt: new Date().toISOString(),
 	};
 
-	results.push(entry);
-	localStorage.setItem(QUIZ_RESULTS_KEY, JSON.stringify(results));
+	data.quizes[quiz.id-1].result = results[quiz.id-1];
+	saveToLocalStorage(data);
+	//localStorage.setItem(QUIZ_RESULTS_KEY, JSON.stringify(results));
 	return entry;
 }
 

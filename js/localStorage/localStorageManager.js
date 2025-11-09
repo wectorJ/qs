@@ -8,6 +8,7 @@ export function saveToLocalStorage(value) {
     console.error('Error saving to localStorage', error);
   }
 }
+
 export function loadFromLocalStorage() {
     try {
         const serializedValue = localStorage.getItem(KEY);
