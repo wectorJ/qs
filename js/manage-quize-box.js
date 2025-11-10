@@ -1,4 +1,4 @@
-import { loadFromLocalStorage, saveToLocalStorage } from "../js/localStorage/localStorageManager.js";
+import { loadFromLocalStorage, saveToLocalStorage } from "./localStorage/localStorageManager.js";
 
 class ManageQuizBox extends HTMLElement {
 	set quiz(value) {
@@ -80,8 +80,88 @@ class ManageQuizBox extends HTMLElement {
 	}
 }
 
+class QuizEditBox extends HTMLElement {
+	set quiz(value) {
+		this._quiz = value;
+		this.render();
+	}
+	render() {
+		this.textContent = '';
+		if (!this._quiz) {
+			return;
+		}
+
+		const { id, title, questions, description } = this._quiz;
+		const wrapper = document.createElement('article');
+		wrapper.className = 'quiz-card';
+
+		const quizTitleElement = document.createElement('h2');
+		quizTitleElement.textContent = 'Edit Quiz: ' + (title || 'Untitled quiz');
+
+
+		const quizTitleLabel = document.createElement('p');
+		quizTitleLabel.textContent = 'Quiz Title: ';
+
+		const titleInput = document.createElement('input');
+		titleInput.type = 'text';
+		titleInput.value = title || '';
+
+		
+		const descriptionLabel = document.createElement('p');
+		descriptionLabel.textContent = 'Quiz Description: ';
+		
+		const descriptionInput = document.createElement('textarea');
+		descriptionInput.value = description || '';
+
+
+		const saveButton = document.createElement('button');
+		saveButton.textContent = 'Save Changes';
+		saveButton.addEventListener('click', () => {
+			const updatedTitle = titleInput.value.trim();
+			const updatedDescription = descriptionInput.value.trim();
+			const storedData = loadFromLocalStorage();
+			const quizes = storedData.quizes || [];
+			const updatedQuizes = quizes.map(quiz => {
+				if (quiz.id === id) {
+					return {
+						...quiz,
+						title: updatedTitle,
+						description: updatedDescription
+					};
+				}
+				return quiz;
+			});
+			saveToLocalStorage({ ...storedData, quizes: updatedQuizes });
+			alert('Quiz updated successfully!');
+		});
+
+
+
+
+
+		const hr = document.createElement('hr');
+		const br = document.createElement('br');
+
+		wrapper.appendChild(quizTitleElement);
+
+		wrapper.appendChild(quizTitleLabel);
+		wrapper.appendChild(titleInput);
+
+		wrapper.appendChild(descriptionLabel);
+		wrapper.appendChild(descriptionInput);
+		wrapper.appendChild(hr);
+
+		wrapper.appendChild(saveButton);
+
+		this.appendChild(wrapper);
+	}
+}
+
 if (!customElements.get('manage-quiz-box')) {
 	customElements.define('manage-quiz-box', ManageQuizBox);
+}
+if (!customElements.get('edit-quiz-box')) {
+	customElements.define('edit-quiz-box', QuizEditBox);
 }
 
 
@@ -93,9 +173,34 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     const quizzes = loadFromLocalStorage().quizes || [];
 
-    quizzes.forEach(quizData => {
-        const quizBox = document.createElement('manage-quiz-box');
-        quizBox.quiz = quizData;
-        listContainer.appendChild(quizBox);
-    });
+	const params = new URLSearchParams(window.location.search);
+	const quizIdParam = params.get('id');
+	let quizToManage = null;
+
+	if (!quizIdParam) {
+    	quizzes.forEach(quizData => {
+    	    const quizBox = document.createElement('manage-quiz-box');
+    	    quizBox.quiz = quizData;
+    	    listContainer.appendChild(quizBox);
+    	});
+	} else {
+		quizzes.forEach(quizData => {
+    	    const isThereQuizToManage = String(quizData.id) === String(quizIdParam);
+			if (isThereQuizToManage) {
+				quizToManage =  quizData.id;
+			}
+    	});
+
+		console.log(quizToManage);
+		if (quizToManage !== null) {
+			const quizBox = document.createElement('edit-quiz-box');
+			const quizData = quizzes.find((item) => String(item.id) === String(quizToManage));
+			quizBox.quiz = quizData;
+			listContainer.appendChild(quizBox);
+		} else {
+			listContainer.textContent = 'Quiz to manage not found.';
+		}
+
+
+	}
 });
