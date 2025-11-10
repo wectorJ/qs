@@ -14,22 +14,26 @@ class QuizResultBox extends HTMLElement {
         }
 
         const { result } = this._quiz;
-        const { quizId, title, correct, total, percentage, completedAt } = result;
+        const { quizId, title, description, correct, total, percentage, completedAt } = result;
 
         const wrapper = document.createElement('article');
         wrapper.className = 'quiz-card';
 
-        // Title + link
         const heading = document.createElement('h2');
+        const descriptionInfo = document.createElement('p');
         const titleLink = document.createElement('a');
-        titleLink.textContent = title || 'Untitled quiz';
 
+        titleLink.textContent = title || 'Untitled quiz';
+        descriptionInfo.textContent = description || 'No description available.';
+
+
+        let quizHref = './quiz.html';
         if (typeof quizId === 'number' || typeof quizId === 'string') {
             const encodedId = encodeURIComponent(quizId);
-            titleLink.href = `./result.html?id=${encodedId}`;
-        } else {
-            titleLink.href = './result.html';
+            quizHref += `?id=${encodedId}`;
         }
+        titleLink.href = quizHref;
+        
         heading.appendChild(titleLink);
 
         // Score info
@@ -46,8 +50,10 @@ class QuizResultBox extends HTMLElement {
         }
 
         wrapper.appendChild(heading);
+        wrapper.appendChild(descriptionInfo);
         wrapper.appendChild(scoreInfo);
         wrapper.appendChild(completedInfo);
+
         this.appendChild(wrapper);
     }
 }
@@ -72,12 +78,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        listContainer.textContent = 'No quiz done :(';
+
+        listContainer.textContent = 'No quizzes done yet :(';
+        quizes.forEach((quiz) => {
+            if (quiz.result) {
+                listContainer.textContent = '';
+            }
+        });
+        
+
 
         // Display only quizzes that have a result
         quizes.forEach((quiz) => {
             if (quiz.result) {
-                listContainer.textContent = '';
                 const quizElement = document.createElement('quiz-result-box');
                 quizElement.quiz = quiz;
                 listContainer.appendChild(quizElement);

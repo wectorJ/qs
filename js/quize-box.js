@@ -21,20 +21,20 @@ class QuizBox extends HTMLElement {
 		const questionInfo = document.createElement('p');
 		const descriptionInfo = document.createElement('p');
 
-		titleLink.textContent = title || 'Untitled q	uiz';
+		titleLink.textContent = title || 'Untitled quiz';
 		let quizHref = './quiz.html';
 		if (typeof id === 'number' || typeof id === 'string') {
 			const encodedId = encodeURIComponent(id);
-			titleLink.href = `./quiz.html?id=${encodedId}`;
+			quizHref += `?id=${encodedId}`;
 
 			wrapper.style.cursor = 'pointer';
 			wrapper.addEventListener('click', () => {
-				window.location.href = quizHref +`?id=${encodedId}`;
+				window.location.href = quizHref;
 			});
 			
-		} else {
-			titleLink.href = quizHref;
 		}
+		titleLink.href = quizHref;
+		
 		heading.appendChild(titleLink);
 		const questionsCount = Array.isArray(questions) ? questions.length : 0;
 		questionInfo.textContent = `Count of questions: ${questionsCount}`;

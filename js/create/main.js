@@ -60,8 +60,8 @@ function addQuestionField() {
   const questionTextInput = question.querySelector('.question-text-input');
 
 
-  questionText.textContent = `Question ${questionCount}`;
-  questionTextInput.placeholder = `Question ${questionCount}`;
+  // questionText.textContent = `Question`;
+  questionTextInput.placeholder = `Question`;
   questionTextInput.name = `question-text-${questionCount}`;
 
 
@@ -114,7 +114,7 @@ function addOption(optionListContainer, questionNumber) {
     }
   });
 
-  option.querySelector('.option-text-input').placeholder = `Option ${optionNumber}`;
+  option.querySelector('.option-text-input').placeholder = `Option`;
   option.querySelector('.radio-option-input-button').name = `choice ${questionNumber}`;
   
   optionListContainer.appendChild(option);

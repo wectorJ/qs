@@ -148,44 +148,26 @@ function evaluateQuiz(form, questions) {
 	return score;
 }
 
-const QUIZ_RESULTS_KEY = 'quizResults';
+// const QUIZ_RESULTS_KEY = 'quizResults';
 
 function saveQuizResult(quiz, score) {
 	const data = loadFromLocalStorage();
 	if (!data) {
 		throw new Error('No local storage data available to save quiz result.');
 	}
-	const results = loadQuizResults();
+	// const results = loadQuizResults();
 	const entry = {
 		quizId: quiz.id ?? null,
 		title: quiz.title ?? 'Untitled quiz',
+		description: quiz.description || 'No description available.',
 		correct: score.correct,
 		total: score.total,
 		percentage: score.total ? Math.round((score.correct / score.total) * 100) : 0,
 		completedAt: new Date().toISOString(),
 	};
 
-	// results.push(entry);
 	data.quizes[quiz.id-1].result = entry;
 	saveToLocalStorage(data);
-
-	
-	// localStorage.setItem(QUIZ_RESULTS_KEY, JSON.stringify(results));
-
 	
 	return entry;
-}
-
-function loadQuizResults() {
-	try {
-		const raw = localStorage.getItem(QUIZ_RESULTS_KEY);
-		if (!raw) {
-			return [];
-		}
-		const parsed = JSON.parse(raw);
-		return Array.isArray(parsed) ? parsed : [];
-	} catch (error) {
-		console.error('Failed to read quiz results from localStorage:', error);
-		return [];
-	}
 }
