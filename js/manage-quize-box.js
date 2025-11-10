@@ -95,6 +95,8 @@ class QuizEditBox extends HTMLElement {
 		const wrapper = document.createElement('article');
 		wrapper.className = 'quiz-card';
 
+		console.log(questions);
+
 		const quizTitleElement = document.createElement('h2');
 		quizTitleElement.textContent = 'Edit Quiz: ' + (title || 'Untitled quiz');
 
@@ -104,6 +106,9 @@ class QuizEditBox extends HTMLElement {
 
 		const titleInput = document.createElement('input');
 		titleInput.type = 'text';
+		titleInput.className = 'quiz-title'
+		titleInput.id = 'quiz-title'
+		titleInput.required = true;
 		titleInput.value = title || '';
 
 		
@@ -112,31 +117,108 @@ class QuizEditBox extends HTMLElement {
 		
 		const descriptionInput = document.createElement('textarea');
 		descriptionInput.value = description || '';
+		descriptionInput.required = true;
+		descriptionInput.className = 'quiz-description'
+		descriptionInput.name = 'quiz-description'
+		descriptionInput.id = 'quiz-description'
+
+		
+		const optionsList = document.createElement('div');
+		
+		questions.forEach((question, index) => {
+			const questionDiv = document.createElement('div');
+			questionDiv.className = 'question-edit-box';
+
+			const questionInput = document.createElement('input');
+			questionInput.type = 'text';
+			questionInput.className = 'question-text-input';
+			questionInput.value = question.question || '';
+			questionInput.placeholder = `Question ${index + 1}`;
+			
+			
+			const options = Array.isArray(question.options) ? question.options : [];
+			const optionsContainer = document.createElement('li');
+			optionsContainer.className = 'options-container';
+			
+			options.forEach((option, optionIndex) => {
+				const optionTextInput = document.createElement('input');
+				optionTextInput.type = 'text';
+				optionTextInput.className = 'option-text-input';
+				optionTextInput.value = option || '';
+				optionTextInput.placeholder = `Option`;
+				optionTextInput.name = `text-input-${index}`
+				
+				const optionRadioInput = document.createElement('input')
+				optionRadioInput.type = 'radio';
+				optionRadioInput.className = 'radio-option-input-button';
+				optionRadioInput.name = `choice-${index}`
+				if(String(option) === String(question.answer)){
+					optionRadioInput.checked = true;
+				} 
+
+				// questionDiv.appendChild(document.createElement(`br`))
+				optionsContainer.appendChild(optionRadioInput);
+				optionsContainer.appendChild(optionTextInput);
+			});
 
 
+			questionDiv.appendChild(questionInput);
+			questionDiv.appendChild(optionsContainer);
+			questionDiv.appendChild(document.createElement(`hr`))
+
+			optionsList.appendChild(questionDiv);
+		});
+		
+		
 		const saveButton = document.createElement('button');
 		saveButton.textContent = 'Save Changes';
 		saveButton.addEventListener('click', () => {
 			const updatedTitle = titleInput.value.trim();
 			const updatedDescription = descriptionInput.value.trim();
+
+			// Build updated questions array from the rendered inputs
+			const updatedQuestions = [];
+			const questionDivs = optionsList.querySelectorAll('.question-edit-box');
+			questionDivs.forEach((qDiv, qIndex) => {
+				const questionTextInput = qDiv.querySelector('.question-text-input');
+				const optionTextInputs = Array.from(qDiv.querySelectorAll('.option-text-input'));
+				const optionRadioInputs = Array.from(qDiv.querySelectorAll(`input[name="choice-${qIndex}"]`));
+
+				const options = optionTextInputs.map(o => o.value.trim());
+				let answer = null;
+				const checkedIndex = optionRadioInputs.findIndex(r => r.checked);
+				if (checkedIndex !== -1 && options[checkedIndex] !== undefined) {
+					answer = options[checkedIndex];
+				} else if (questions[qIndex] && questions[qIndex].answer !== undefined) {
+					// fallback to original answer if none selected
+					answer = questions[qIndex].answer;
+				}
+
+				updatedQuestions.push({
+					question: questionTextInput ? questionTextInput.value.trim() : '',
+					options,
+					answer
+				});
+			});
+
 			const storedData = loadFromLocalStorage();
 			const quizes = storedData.quizes || [];
 			const updatedQuizes = quizes.map(quiz => {
-				if (quiz.id === id) {
+				if (String(quiz.id) === String(id)) {
 					return {
 						...quiz,
 						title: updatedTitle,
-						description: updatedDescription
+						description: updatedDescription,
+						questions: updatedQuestions
 					};
 				}
 				return quiz;
 			});
 			saveToLocalStorage({ ...storedData, quizes: updatedQuizes });
 			alert('Quiz updated successfully!');
+
+
 		});
-
-
-
 
 
 		const hr = document.createElement('hr');
@@ -151,11 +233,15 @@ class QuizEditBox extends HTMLElement {
 		wrapper.appendChild(descriptionInput);
 		wrapper.appendChild(hr);
 
+		wrapper.appendChild(optionsList);
+		wrapper.appendChild(br);
+
 		wrapper.appendChild(saveButton);
 
 		this.appendChild(wrapper);
 	}
 }
+
 
 if (!customElements.get('manage-quiz-box')) {
 	customElements.define('manage-quiz-box', ManageQuizBox);
@@ -196,6 +282,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 			const quizBox = document.createElement('edit-quiz-box');
 			const quizData = quizzes.find((item) => String(item.id) === String(quizToManage));
 			quizBox.quiz = quizData;
+			console.log(quizData);
 			listContainer.appendChild(quizBox);
 		} else {
 			listContainer.textContent = 'Quiz to manage not found.';
