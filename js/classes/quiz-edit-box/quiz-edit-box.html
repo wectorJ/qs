@@ -1,3 +1,11 @@
+<template class="quiz-box-template">
+  <article class="quiz-card">
+    <h2><a class="quiz-title-link" href="#">Quiz Title</a></h2>
+    <p class="quiz-question-count">Count of questions: 0</p>
+    <p class="quiz-description">No description available.</p>
+  </article>
+</template>
+
 <template class="quiz-edit-template">
   <article class="quiz-card">
     <h2 class="edit-heading"></h2>
@@ -8,10 +16,27 @@
     <label for="quiz-description">Quiz Description:</label>
     <textarea class="quiz-description" id="quiz-description" required></textarea>
 
-    <hr>
     <div class="questions-list"></div>
 
     <br>
     <button class="save-btn">Save Changes</button>
   </article>
 </template>
+
+
+<template class="quiz-question-template">
+  <div class="question-edit-box">
+    <input type="text" class="question-text-input" placeholder="Question" />
+    <ul class="options-container"></ul>
+    <button class="add-option-btn" type="button">Add Option</button>
+  </div>
+</template>
+
+<template class="quiz-option-template">
+  <li class="option-item">
+    <input type="radio" class="radio-option-input-button" />
+    <input type="text" class="option-text-input" placeholder="Option" />
+    <button class="delete-option-button" type="button">X</button>
+  </li>
+</template>
+

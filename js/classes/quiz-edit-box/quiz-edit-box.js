@@ -17,26 +17,18 @@ export class QuizEditBox extends HTMLElement {
 
   async loadTemplates() {
     // Load all templates
-    const [htmlMain, htmlQuestion, htmlOption, cssFile] = await Promise.all([
+    const [htmlFile, cssFile] = await Promise.all([
       fetch("../js/classes/quiz-edit-box/quiz-edit-box.html").then(r => r.text()),
-      fetch("../js/classes/quiz-edit-box/quiz-question-template.html").then(r => r.text()),
-      fetch("../js/classes/quiz-edit-box/quiz-option-template.html").then(r => r.text()),
       fetch("../js/classes/quiz-edit-box/quiz-edit-box.css").then(r => r.text())
     ]);
 
+    const htmlText = document.createElement("div");
+    htmlText.innerHTML = htmlFile;
+
     // Parse HTML templates
-    const tmpMain = document.createElement("div");
-    tmpMain.innerHTML = htmlMain;
-
-    const tmpQuestion = document.createElement("div");
-    tmpQuestion.innerHTML = htmlQuestion;
-
-    const tmpOption = document.createElement("div");
-    tmpOption.innerHTML = htmlOption;
-
-    this.template_main = tmpMain.querySelector(".quiz-edit-template");
-    this.template_question = tmpQuestion.querySelector(".quiz-question-template");
-    this.template_option = tmpOption.querySelector(".quiz-option-template");
+    this.template_main = htmlText.querySelector(".quiz-edit-template");
+    this.template_question = htmlText.querySelector(".quiz-question-template");
+    this.template_option = htmlText.querySelector(".quiz-option-template");
     this.styles = cssFile;
 
     if (this._quiz) {
