@@ -22,6 +22,17 @@ export function loadFromLocalStorage() {
     }
 }
 
+export function saveQuestionOptionCount(questionNumber, optionCount) {
+  const data = loadFromLocalStorage();
+  data.currect_option_number[questionNumber] = optionCount + 1 || 1;
+  saveToLocalStorage(data);
+}
+
+export function getQuestionOptionCount(questionNumber) {
+  const data = loadFromLocalStorage();
+  return data.currect_option_number?.[questionNumber] ?? 1;
+}
+
 
 
 export function quizQuestions(quizID){

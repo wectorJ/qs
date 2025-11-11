@@ -1,4 +1,5 @@
-import { loadFromLocalStorage, saveToLocalStorage } from "../../localStorage/localStorageManager.js";
+import { loadFromLocalStorage, saveToLocalStorage, saveQuestionOptionCount, getQuestionOptionCount  } from "../../localStorage/localStorageManager.js";
+
 
 export class QuizEditBox extends HTMLElement {
   constructor() {
@@ -61,33 +62,26 @@ export class QuizEditBox extends HTMLElement {
     const descInput = content.querySelector(".quiz-description");
     const questionsList = content.querySelector(".questions-list");
     const saveBtn = content.querySelector(".save-btn");
+    const addQuestionBtn = content.querySelector(".add-question-button");
 
     heading.textContent = `Edit Quiz: ${title || "Untitled quiz"}`;
     titleInput.value = title || "";
     descInput.value = description || "";
 
+    addQuestionBtn.addEventListener("click", () => {
+      const new_question = {
+        answer: "",
+        options: ['', '', ''],
+        question: '',
+        value: 1
+      };
+      const questionNode = this.createQuestion(new_question, getQuestionOptionCount());
+      questionsList.appendChild(questionNode);
+    });
+
     // Build each question using question template
     questions.forEach((question, index) => {
-      const questionNode = this.template_question.content.cloneNode(true);
-      const questionInput = questionNode.querySelector(".question-text-input");
-      const optionsContainer = questionNode.querySelector(".options-container");
-      const addOptionBtn = questionNode.querySelector(".add-option-btn");
-
-      questionInput.value = question.question || "";
-      questionInput.placeholder = `Question ${index + 1}`;
-
-      // Add existing options
-      (question.options || []).forEach(opt => {
-        const optNode = this.createOptionNode(opt, question.answer, index);
-        optionsContainer.appendChild(optNode);
-      });
-
-      // Add new option button
-      addOptionBtn.addEventListener("click", () => {
-        const newOpt = this.createOptionNode("", question.answer, index);
-        optionsContainer.appendChild(newOpt);
-      });
-
+      const questionNode = this.createQuestion(question, index);
       questionsList.appendChild(questionNode);
     });
 
@@ -95,6 +89,39 @@ export class QuizEditBox extends HTMLElement {
     saveBtn.addEventListener("click", () => this.saveQuizChanges(id, titleInput, descInput, questionsList));
 
     shadow.appendChild(content);
+  }
+
+  
+
+  createQuestion(question, index) {
+    const questionNode = this.template_question.content.cloneNode(true);
+    const questionInput = questionNode.querySelector(".question-text-input");
+    const optionsContainer = questionNode.querySelector(".options-container");
+    const addOptionBtn = questionNode.querySelector(".add-option-btn");
+    const deleteQuestionBtn = questionNode.querySelector(".delete-question-button")
+
+    questionInput.value = question.question || "";
+    questionInput.placeholder = `Question`;
+
+    // Add existing options
+    (question.options || []).forEach(opt => {
+      const optNode = this.createOptionNode(opt, question.answer, index);
+      optionsContainer.appendChild(optNode);
+    });
+
+    // Add new option button
+    addOptionBtn.addEventListener("click", () => {
+      const newOpt = this.createOptionNode("", question.answer, index);
+      optionsContainer.appendChild(newOpt);
+    });
+
+    const questionElement = questionNode.querySelector('.question-edit-box');
+    // Remove question button
+    deleteQuestionBtn.addEventListener("click", () => {
+      if(questionElement) questionElement.remove();
+    })
+
+    return questionNode;
   }
 
   createOptionNode(optionText, correctAnswer, questionIndex) {

@@ -1,4 +1,4 @@
-import { loadFromLocalStorage, saveToLocalStorage } from "../../localStorage/localStorageManager.js";
+import { loadFromLocalStorage, saveToLocalStorage, saveQuestionOptionCount, getQuestionOptionCount  } from "../../localStorage/localStorageManager.js";
 
 export class QuizCreation extends HTMLElement {
   constructor() {
@@ -96,8 +96,8 @@ export class QuizCreation extends HTMLElement {
   }
 
   addOption(optionsContainer, questionNumber) {
-    const optionCount = this.getQuestionOptionCount(questionNumber);
-    this.saveQuestionOptionCount(questionNumber, optionCount);
+    const optionCount = getQuestionOptionCount(questionNumber);
+    saveQuestionOptionCount(questionNumber, optionCount);
 
     const optionNode = this.template_option.content.cloneNode(true);
     const optionElem = optionNode.querySelector(".option-item");
@@ -114,17 +114,6 @@ export class QuizCreation extends HTMLElement {
     optionElem.querySelector(".option-text-input").placeholder = `Option`;
 
     optionsContainer.appendChild(optionElem);
-  }
-
-  saveQuestionOptionCount(questionNumber, optionCount) {
-    const data = loadFromLocalStorage();
-    data.currect_option_number[questionNumber] = optionCount + 1 || 1;
-    saveToLocalStorage(data);
-  }
-
-  getQuestionOptionCount(questionNumber) {
-    const data = loadFromLocalStorage();
-    return data.currect_option_number?.[questionNumber] ?? 1;
   }
 
   createNewQuiz() {

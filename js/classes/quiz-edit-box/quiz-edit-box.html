@@ -16,6 +16,9 @@
     <label for="quiz-description">Quiz Description:</label>
     <textarea class="quiz-description" id="quiz-description" required></textarea>
 
+    <br>
+    <button class="add-question-button">Add Question</button>
+
     <div class="questions-list"></div>
 
     <br>
@@ -26,6 +29,7 @@
 
 <template class="quiz-question-template">
   <div class="question-edit-box">
+    <button class="delete-question-button" type="button">X</button>
     <input type="text" class="question-text-input" placeholder="Question" />
     <ul class="options-container"></ul>
     <button class="add-option-btn" type="button">Add Option</button>
