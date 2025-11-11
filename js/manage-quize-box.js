@@ -137,10 +137,14 @@ class QuizEditBox extends HTMLElement {
 			
 			
 			const options = Array.isArray(question.options) ? question.options : [];
-			const optionsContainer = document.createElement('li');
+			const optionsContainer = document.createElement('ul');
 			optionsContainer.className = 'options-container';
 			
+			// option handler
 			options.forEach((option, optionIndex) => {
+				const optionItem = document.createElement('li');
+				optionItem.className = 'option-item';
+
 				const optionTextInput = document.createElement('input');
 				optionTextInput.type = 'text';
 				optionTextInput.className = 'option-text-input';
@@ -156,13 +160,32 @@ class QuizEditBox extends HTMLElement {
 					optionRadioInput.checked = true;
 				} 
 
-				// questionDiv.appendChild(document.createElement(`br`))
-				optionsContainer.appendChild(optionRadioInput);
-				optionsContainer.appendChild(optionTextInput);
+				const deleteOption = document.createElement('button');
+				deleteOption.className = 'delete-option-button';
+				deleteOption.value = 'X';
+				deleteOption.textContent = 'X';
+				deleteOption.addEventListener('click', (e) => {
+					e.preventDefault();
+					optionTextInput.remove();
+					optionRadioInput.remove();
+					deleteOption.remove();
+				});
+
+
+				optionItem.appendChild(optionRadioInput);
+				optionItem.appendChild(optionTextInput);
+				optionItem.appendChild(deleteOption);
+
+				optionsContainer.appendChild(optionItem);
 			});
+
+			const addOption = document.createElement('button');
+			addOption.class = 'add-option-btn';
+			addOption.textContent = 'Add Option';
 
 
 			questionDiv.appendChild(questionInput);
+			questionDiv.appendChild(addOption);
 			questionDiv.appendChild(optionsContainer);
 			questionDiv.appendChild(document.createElement(`hr`))
 
