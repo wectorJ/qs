@@ -13,7 +13,7 @@ export class QuizBox extends HTMLElement {
     // Load CSS
     const styleLink = document.createElement('link');
     styleLink.rel = 'stylesheet';
-    styleLink.href = './quiz-box.css';
+    styleLink.href = '../js/classes/quiz-box/quiz-box.css';
     this.shadowRoot.appendChild(styleLink);
 
     // Load template
