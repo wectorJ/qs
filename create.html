@@ -9,39 +9,21 @@
 <body>
     <div class="container">
         <div id="menu">
-            <p class="menu-literaly" id="menuLiteraly" onclick="window.location.href = 'https://youtu.be/dQw4w9WgXcQ?si=ikjNhtlICjVDam4U'">Menu</p><br><br>
-            <button class="quiz-button" onclick="location.href='index.html'"><p class="menu-text">Back to Main Menu</p></button>
+            <p class="menu-literaly" id="menuLiteraly" onclick="window.location.href='https://youtu.be/dQw4w9WgXcQ?si=ikjNhtlICjVDam4U'">Menu</p><br><br>
+            <button class="quiz-button" onclick="location.href='index.html'">
+                <p class="menu-text">Back to Main Menu</p>
+            </button>
         </div>
 
         <div id="main-part">
             <p id="create-quote">Create a New Quiz</p>
-            <form id="create-quiz-form" method="post">
-                <label for="quiz-title">Quiz Title:</label><br>
-                <input type="text" id="quiz-title" name="quiz-title" required><br><br>
-
-                <label for="quiz-description">Quiz Description:</label><br>
-                <textarea id="quiz-description" name="quiz-description" required></textarea><br><br>
-
-                <hr>
-
-                <div>
-                    <h2>Questions</h2>
-                    <div id="questions-container">
-                    <!-- Questions will be added here dynamically -->
-                    </div>
-                    <button type="button" id="add-question-btn">Add Question</button>
-                </div>
-
-                <button type="button" id="create-quiz-btn">Create Quiz</button>
-            </form>
+            <div id="quiz-creation-container">
+                <!-- QuizCreation component will be injected here -->
+            </div>
         </div>
-
-        
     </div>
     <div id="footer"></div>
 
-    <!-- Scripts -->
     <script type="module" src="./js/create/main.js"></script>
-    <!-- <script src="js/footer.js"></script> -->
 </body>
 </html>

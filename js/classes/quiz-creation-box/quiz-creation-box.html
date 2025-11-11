@@ -1,0 +1,35 @@
+<!-- quiz-creation-box.html -->
+<template class="quiz-creation-template">
+  <div>
+    <label for="quiz-title">Quiz Title:</label>
+    <input type="text" id="quiz-title" class="quiz-title" required />
+
+    <label for="quiz-description">Quiz Description:</label>
+    <textarea id="quiz-description" class="quiz-description" required></textarea>
+    
+    <button id="add-question-btn" type="button">Add Question</button>
+    
+    <hr>
+    <div id="questions-container" class="questions-container"></div>
+
+    <button id="create-quiz-btn" type="button">Create Quiz</button>
+  </div>
+</template>
+
+<template class="question-template">
+  <div class="question-item">
+    <button class="delete-question-button" type="button">X</button>
+    <input type="text" class="question-text-input" placeholder="Question" />
+    <ul class="options-list"></ul>
+    <button class="add-option-btn" type="button">Add Option</button>
+    <hr>
+  </div>
+</template>
+
+<template class="option-template">
+  <li class="option-item">
+    <input type="radio" class="radio-option-input-button" />
+    <input type="text" class="option-text-input" placeholder="Option" />
+    <button class="delete-option-button" type="button">X</button>
+  </li>
+</template>
