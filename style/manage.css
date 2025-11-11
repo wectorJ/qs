@@ -60,13 +60,6 @@ body {
     flex-direction: column;
 }
 
-#welcome-quote {
-    color: #335765;
-    text-align: center;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 40px;
-}
-
 .menu-text {
     color: #74a8a4;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -80,18 +73,23 @@ body {
     font-size: 50px;
 }
 
-#quizzes-quote {
+#manage-quote {
+    color: #335765;
+    text-align: center;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 40px;
+}
+
+.text1 {
+    color: #335765;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+}
+
+.text2 {
     color: #335765;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 30px;
-}
-
-#quiz-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin: 24px 0 0;
-    padding: 0;
 }
 
 quiz-box {
@@ -106,21 +104,25 @@ quiz-box {
     min-height: 140px;
     box-sizing: border-box;
     background: #ffffff;
+/*
     cursor: pointer;
     transition: all 0.3s ease;
+*/
     max-width: 400px;
 }
 
+/*
 .quiz-card:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
+*/
 
 .quiz-card h2 {
     margin: 0 0 12px;
     font-size: 22px;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    color: #335765;
+    color: #2b4a57;
 }
 
 .quiz-card p {
@@ -128,4 +130,10 @@ quiz-box {
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     color: #335765;
     font-size: 18px;
+}
+
+#quiz-list {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
