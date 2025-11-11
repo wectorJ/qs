@@ -140,8 +140,7 @@ class QuizEditBox extends HTMLElement {
 			const optionsContainer = document.createElement('ul');
 			optionsContainer.className = 'options-container';
 			
-			// option handler
-			options.forEach((option, optionIndex) => {
+			function addOption(option){
 				const optionItem = document.createElement('li');
 				optionItem.className = 'option-item';
 
@@ -149,6 +148,9 @@ class QuizEditBox extends HTMLElement {
 				optionTextInput.type = 'text';
 				optionTextInput.className = 'option-text-input';
 				optionTextInput.value = option || '';
+				if(String(option) === '[object PointerEvent]'){
+					optionTextInput.value = '';
+				}
 				optionTextInput.placeholder = `Option`;
 				optionTextInput.name = `text-input-${index}`
 				
@@ -166,9 +168,13 @@ class QuizEditBox extends HTMLElement {
 				deleteOption.textContent = 'X';
 				deleteOption.addEventListener('click', (e) => {
 					e.preventDefault();
-					optionTextInput.remove();
-					optionRadioInput.remove();
-					deleteOption.remove();
+					console.log(optionsContainer.getElementsByTagName('li').length)
+					if(optionsContainer.getElementsByTagName('li').length > 1){
+						optionTextInput.remove();
+						optionRadioInput.remove();
+						deleteOption.remove();
+						optionItem.remove();
+					}
 				});
 
 
@@ -176,16 +182,24 @@ class QuizEditBox extends HTMLElement {
 				optionItem.appendChild(optionTextInput);
 				optionItem.appendChild(deleteOption);
 
-				optionsContainer.appendChild(optionItem);
+				return optionItem;
+			}
+
+			// option handler
+			options.forEach((option, optionIndex) => {
+				optionsContainer.appendChild(addOption(option));
 			});
 
-			const addOption = document.createElement('button');
-			addOption.class = 'add-option-btn';
-			addOption.textContent = 'Add Option';
+			const addOptionBtn = document.createElement('button');
+			addOptionBtn.class = 'add-option-btn';
+			addOptionBtn.textContent = 'Add Option';
+			addOptionBtn.addEventListener('click', (option)=>{
+				optionsContainer.appendChild(addOption(option));
+			});
 
 
 			questionDiv.appendChild(questionInput);
-			questionDiv.appendChild(addOption);
+			questionDiv.appendChild(addOptionBtn);
 			questionDiv.appendChild(optionsContainer);
 			questionDiv.appendChild(document.createElement(`hr`))
 
