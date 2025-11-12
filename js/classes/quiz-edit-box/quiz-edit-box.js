@@ -1,4 +1,5 @@
-import { loadFromLocalStorage, saveToLocalStorage } from "../../localStorage/localStorageManager.js";
+import { loadFromLocalStorage, saveToLocalStorage, saveQuestionOptionCount, getQuestionOptionCount  } from "../../localStorage/localStorageManager.js";
+
 
 export class QuizEditBox extends HTMLElement {
   constructor() {
@@ -17,26 +18,18 @@ export class QuizEditBox extends HTMLElement {
 
   async loadTemplates() {
     // Load all templates
-    const [htmlMain, htmlQuestion, htmlOption, cssFile] = await Promise.all([
+    const [htmlFile, cssFile] = await Promise.all([
       fetch("../js/classes/quiz-edit-box/quiz-edit-box.html").then(r => r.text()),
-      fetch("../js/classes/quiz-edit-box/quiz-question-template.html").then(r => r.text()),
-      fetch("../js/classes/quiz-edit-box/quiz-option-template.html").then(r => r.text()),
       fetch("../js/classes/quiz-edit-box/quiz-edit-box.css").then(r => r.text())
     ]);
 
+    const htmlText = document.createElement("div");
+    htmlText.innerHTML = htmlFile;
+
     // Parse HTML templates
-    const tmpMain = document.createElement("div");
-    tmpMain.innerHTML = htmlMain;
-
-    const tmpQuestion = document.createElement("div");
-    tmpQuestion.innerHTML = htmlQuestion;
-
-    const tmpOption = document.createElement("div");
-    tmpOption.innerHTML = htmlOption;
-
-    this.template_main = tmpMain.querySelector(".quiz-edit-template");
-    this.template_question = tmpQuestion.querySelector(".quiz-question-template");
-    this.template_option = tmpOption.querySelector(".quiz-option-template");
+    this.template_main = htmlText.querySelector(".quiz-edit-template");
+    this.template_question = htmlText.querySelector(".quiz-question-template");
+    this.template_option = htmlText.querySelector(".quiz-option-template");
     this.styles = cssFile;
 
     if (this._quiz) {
@@ -69,33 +62,26 @@ export class QuizEditBox extends HTMLElement {
     const descInput = content.querySelector(".quiz-description");
     const questionsList = content.querySelector(".questions-list");
     const saveBtn = content.querySelector(".save-btn");
+    const addQuestionBtn = content.querySelector(".add-question-button");
 
     heading.textContent = `Edit Quiz: ${title || "Untitled quiz"}`;
     titleInput.value = title || "";
     descInput.value = description || "";
 
+    addQuestionBtn.addEventListener("click", () => {
+      const new_question = {
+        answer: "",
+        options: ['', '', ''],
+        question: '',
+        value: 1
+      };
+      const questionNode = this.createQuestion(new_question, getQuestionOptionCount());
+      questionsList.appendChild(questionNode);
+    });
+
     // Build each question using question template
     questions.forEach((question, index) => {
-      const questionNode = this.template_question.content.cloneNode(true);
-      const questionInput = questionNode.querySelector(".question-text-input");
-      const optionsContainer = questionNode.querySelector(".options-container");
-      const addOptionBtn = questionNode.querySelector(".add-option-btn");
-
-      questionInput.value = question.question || "";
-      questionInput.placeholder = `Question ${index + 1}`;
-
-      // Add existing options
-      (question.options || []).forEach(opt => {
-        const optNode = this.createOptionNode(opt, question.answer, index);
-        optionsContainer.appendChild(optNode);
-      });
-
-      // Add new option button
-      addOptionBtn.addEventListener("click", () => {
-        const newOpt = this.createOptionNode("", question.answer, index);
-        optionsContainer.appendChild(newOpt);
-      });
-
+      const questionNode = this.createQuestion(question, index);
       questionsList.appendChild(questionNode);
     });
 
@@ -103,6 +89,39 @@ export class QuizEditBox extends HTMLElement {
     saveBtn.addEventListener("click", () => this.saveQuizChanges(id, titleInput, descInput, questionsList));
 
     shadow.appendChild(content);
+  }
+
+  
+
+  createQuestion(question, index) {
+    const questionNode = this.template_question.content.cloneNode(true);
+    const questionInput = questionNode.querySelector(".question-text-input");
+    const optionsContainer = questionNode.querySelector(".options-container");
+    const addOptionBtn = questionNode.querySelector(".add-option-btn");
+    const deleteQuestionBtn = questionNode.querySelector(".delete-question-button")
+
+    questionInput.value = question.question || "";
+    questionInput.placeholder = `Question`;
+
+    // Add existing options
+    (question.options || []).forEach(opt => {
+      const optNode = this.createOptionNode(opt, question.answer, index);
+      optionsContainer.appendChild(optNode);
+    });
+
+    // Add new option button
+    addOptionBtn.addEventListener("click", () => {
+      const newOpt = this.createOptionNode("", question.answer, index);
+      optionsContainer.appendChild(newOpt);
+    });
+
+    const questionElement = questionNode.querySelector('.question-edit-box');
+    // Remove question button
+    deleteQuestionBtn.addEventListener("click", () => {
+      if(questionElement) questionElement.remove();
+    })
+
+    return questionNode;
   }
 
   createOptionNode(optionText, correctAnswer, questionIndex) {
