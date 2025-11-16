@@ -20,9 +20,13 @@
   margin-top: 0.4rem;
 }
 
-.add-option-btn,
-.delete-option-button {
+button.add-option-btn,
+button.delete-option-button {
   margin-top: 0.4rem;
+  padding: 0.3rem 0.4rem;
+  font-size: .8rem;
+  line-height: 1;
+  border-radius: 2px;
 }
 
 button {
