@@ -2,7 +2,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "yarn dev": "vite preview"
   },
   "dependencies": {
     "babel": "^6.23.0",
