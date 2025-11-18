@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import "./style/index.css"
+import Header from './components/header.jsx'
+import MainMenu from './components/main-menu.jsx'
 
 function App() {
   return (
-    <div>
-      <h1>Aaa</h1>
-    </div>
+    <>
+      <div className='container'>
+        <MainMenu />
+        <Header />
+      </div>
+    </>
   )
 }
 
