@@ -1,0 +1,197 @@
+body {
+    background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+    padding: 40px 20px;
+}
+
+.create-quiz-container {
+  background-color: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 800px;
+  box-sizing: border-box;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    color: #333;
+    text-align: center;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #eee;
+    margin: 30px 0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+.form-textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.question-fieldset {
+  margin-bottom: 25px;
+  padding: 20px;
+  border: 1px solid #e0c3fc; 
+  border-radius: 12px;
+  background-color: #fcfcff;
+}
+
+.question-fieldset legend {
+    font-size: 1.15rem;
+    font-weight: bold;
+    color: #6a11cb;
+    padding: 0 10px;
+}
+
+.question-input {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.options-label {
+  margin: 10px 0 8px 0;
+  font-size: 0.9em;
+  color: #777;
+}
+
+.option-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.option-text-input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.delete-option-btn {
+  color: white;
+  background-color: #ff4444;
+  border: none;
+  border-radius: 6px;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: background-color 0.2s;
+}
+
+.delete-option-btn:hover {
+  background-color: #cc0000;
+}
+
+.question-actions {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-sm {
+  font-size: 0.85em;
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 20px;
+  background-color: #eee;
+  border: 1px solid #ddd;
+}
+
+.btn-sm:hover {
+    background-color: #ddd;
+}
+
+.btn-remove {
+  color: #ff4444;
+  background: none;
+  border: 1px solid #ff4444;
+}
+
+.btn-remove:hover {
+  background-color: #ffecec;
+}
+
+.btn-add-question {
+  margin: 10px 10px 30px 0;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 25px;
+  background-color: #000;
+  color: white;
+  border: none;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.btn-add-question:hover {
+    background-color: #333;
+}
+
+.btn-save {
+  background-color: green;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.btn-save:hover {
+  background-color: darkgreen;
+}
+
+.btn-cancel {
+  margin-left: 10px;
+  padding: 12px 25px;
+  background-color: #eee;
+  border: 2px solid #ccc;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.btn-cancel:hover {
+  background-color: #ddd;
+}

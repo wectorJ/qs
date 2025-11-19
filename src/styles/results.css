@@ -1,0 +1,139 @@
+.results-container {
+  background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.results-box {
+  background-color: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 600px;
+  position: relative;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.results-header {
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.results-title {
+  font-size: 2rem;
+  margin: 0;
+  color: #333;
+}
+
+.results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex-grow: 1;
+}
+
+.empty-state {
+  text-align: center;
+  color: #777;
+  margin-top: 50px;
+  font-size: 1.1rem;
+}
+
+.result-card {
+  background-color: #f9f9f9;
+  border: 2px solid #eee;
+  border-radius: 15px;
+  padding: 20px;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.result-card:hover {
+  border-color: #bcaaa4; /* Subtle highlight color */
+  background-color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.result-card h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.result-card h2 a {
+  text-decoration: none;
+  color: #333;
+}
+
+.result-card h2 a:hover {
+  text-decoration: underline;
+  color: #6a11cb;
+}
+
+.result-description {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+}
+
+.result-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.score-badge {
+  font-weight: bold;
+  background-color: #e0c3fc;
+  color: #4a0072;
+  padding: 5px 10px;
+  border-radius: 12px;
+}
+
+.date-text {
+  color: #999;
+  font-size: 0.8rem;
+}
+
+.back-btn-container {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.back-btn {
+  background-color: transparent;
+  border: 2px solid #000;
+  padding: 10px 30px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #000;
+}
+
+.back-btn:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.menu-literal-link {
+  position: absolute;
+  top: 15px;
+  left: 20px;
+  font-size: 12px;
+  color: #000;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: bold;
+}
