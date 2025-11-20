@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuizzes } from '../context/QuizContext';
+import { useAlert } from '../components/Alert';
+import Alert from '../components/Alert';
 import '../styles/takeQuiz.css';
 
 export default function TakeQuiz() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { quizzes, updateQuizResult } = useQuizzes();
+
+  const { alertConfig, showAlert, hideAlert } = useAlert();
+
   
   const [quiz, setQuiz] = useState(null);
   const [answers, setAnswers] = useState({});
@@ -33,7 +38,9 @@ export default function TakeQuiz() {
   const handleSubmit = () => {
     // Check if all questions are answered
     if (Object.keys(answers).length !== quiz.questions.length) {
-        alert("Please answer all questions before submitting.");
+        showAlert("Please answer all questions before submitting.", [
+          { label: "Ok", onClick: () => {} }
+        ]); 
         return;
     }
 
@@ -130,6 +137,7 @@ export default function TakeQuiz() {
                     <button onClick={() => navigate('/')}>Back to Menu</button>
                   </div>
                 )}
+                <Alert alertConfig={alertConfig} hideAlert={hideAlert} />
             </form>
         </div>
     </div>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useQuizzes } from '../context/QuizContext';
-import '../styles/mainMenu.css'; // We will update this CSS below
+import '../styles/mainMenu.css';
 
 export default function MainMenu() {
   const { quizzes, deleteQuiz } = useQuizzes();

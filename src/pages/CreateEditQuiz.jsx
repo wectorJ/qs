@@ -1,12 +1,16 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import { useQuizzes } from '../context/QuizContext';
+import { useAlert } from '../components/Alert';
+import Alert from '../components/Alert';
 import '../styles/createQuiz.css';
 
 export default function CreateQuiz() {
   const { id } = useParams(); // Get the id from the url for editing page
   const { addNewQuiz, quizzes, updateQuiz } = useQuizzes(); // get methods forom QuizContext (Formally known as localStorageManager) 
   const navigate = useNavigate();
+
+  const { alertConfig, showAlert, hideAlert } = useAlert();
 
   // useMemo, stable reference of the default state
   const initialQuestionState = useMemo(() => ([
@@ -36,8 +40,10 @@ export default function CreateQuiz() {
             
         setQuestions(JSON.parse(JSON.stringify(questionsToLoad)));
       } else {
-        alert("Quiz not found!");
-        navigate('/'); 
+        showAlert("Quiz not found", [
+          { label: "Ok", onClick: () => { hideAlert(); navigate('/'); } }
+        ]); 
+        
       }
     } else {
         setIsEditing(false);
@@ -113,31 +119,54 @@ export default function CreateQuiz() {
       return false; 
     }
 
+    console.log(!validSubmit());
+
     const quizData = { title, description, questions };
 
     if (isEditing) {
-      updateQuiz(id, quizData);
-      alert(`Quiz "${title}" updated successfully!`);
+      showAlert(`Quiz "${title}" updated successfully!`, [
+        { 
+          label: "Ok", 
+          onClick: () => { 
+            updateQuiz(id, quizData); 
+            hideAlert();
+            navigate('/');
+          } 
+        }
+      ]); 
+
     } else {
-      addNewQuiz(quizData);
-      alert(`New quiz "${title}" created successfully!`);
+      showAlert(`New quiz "${title}" created successfully!`, [
+        { 
+          label: "Ok", 
+          onClick: () => { 
+            addNewQuiz(quizData); 
+            hideAlert();
+            navigate('/');
+          } 
+        }
+      ]); 
     }
 
-    navigate('/'); 
+    
   };
 
   const validSubmit = () => {
     // Validate submition
     // title
-    if (!title.trim()) { alert('Please enter a quiz title'); return false}
+    if (title.trim() == "") 
+    { 
+      showAlert("Please enter a quiz title", [ 
+        { label: "Ok", onClick: () => { return false; } }
+      ]);
+    }
 
     // questions text(does every question text exists)
-    if(
-      questions.forEach( (question) => {
-          if (!question.question.trim()) return false;
-        }
-      )
-    ) { alert('Please fill out every question text'); return false; }
+    if(questions.forEach( (question) => { if (!question.question.trim()) { return false; } } ) ) {
+      showAlert("Please fill out every question text", [ 
+        { label: "Ok", onClick: () => { return false; } }
+      ]);
+    }
   
     // questions text(is every question text valid)
     if(
@@ -146,7 +175,11 @@ export default function CreateQuiz() {
         return true;
       }
     )
-    ) { alert('Question text is not valid'); return false;}
+    ) {
+      showAlert("Question text is not valid", [ 
+        { label: "Ok", onClick: () => { return false; } }
+      ]);
+    }
 
     // every question has an answer
     if(
@@ -154,7 +187,11 @@ export default function CreateQuiz() {
         if(!question.answer) return true;
       }
     )
-    ) { alert('Please check every question answer'); return false;}
+    ) {
+      showAlert("Please check every answer for every question", [ 
+        { label: "Ok", onClick: () => { return false; } }
+      ]);
+    }
 
     return true;
   }
@@ -252,6 +289,7 @@ export default function CreateQuiz() {
         <br/>
         <button type="submit" className="btn-save">{isEditing ? 'Save Changes' : 'Save Quiz'}</button>
         <Link to="/"><button type="button" className="btn-cancel">Cancel</button></Link>
+        <Alert alertConfig={alertConfig} hideAlert={hideAlert} />
       </form>
     </div>
   );
