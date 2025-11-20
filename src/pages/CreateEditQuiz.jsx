@@ -90,12 +90,12 @@ export default function CreateQuiz() {
 
   const handleOptionChange = (qIndex, optIndex, text) => {
     const updated = [...questions];
-    updated[qIndex].options[optIndex] = text;
     
     // If the text of the selected correct answer is changed, update the answer field too.
     if (updated[qIndex].answer === questions[qIndex].options[optIndex]) {
-       updated[qIndex].answer = text;
+      updated[qIndex].answer = text;
     }
+    updated[qIndex].options[optIndex] = text;
     setQuestions(updated);
   };
 
