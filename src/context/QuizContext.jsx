@@ -37,12 +37,11 @@ export const QuizProvider = ({ children }) => {
   };
 
   const addNewQuiz = (newQuizData) => {
-    // Generate a simple new ID (highest existing ID + 1)
     const maxId = quizzes.reduce((max, q) => Math.max(max, Number(q.id) || 0), 0);
     const newQuiz = {
       ...newQuizData,
-      id: maxId + 1, // Assign new ID
-      result: null   // New quizzes have no results yet
+      id: maxId + 1, // new ID for a quiz
+      result: null
     };
     
     const updated = [...quizzes, newQuiz];
@@ -56,9 +55,18 @@ export const QuizProvider = ({ children }) => {
     }
   };
 
-  // Add addNewQuiz to the value object
+  const updateQuiz = (id, quizData) => {
+    const updated = quizzes.map(q => {
+      if (String(q.id) === String(id)) {
+        return {id,  ...quizData};
+      }
+      return q;
+    });
+    saveQuizzes(updated);
+  }
+
   return (
-    <QuizContext.Provider value={{ quizzes, updateQuizResult, addNewQuiz, deleteQuiz }}>
+    <QuizContext.Provider value={{ quizzes, updateQuizResult, addNewQuiz, deleteQuiz,  updateQuiz}}>
         {children}
     </QuizContext.Provider>
   );

@@ -1,18 +1,55 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect, useMemo } from 'react';
+import { useNavigate, Link, useParams } from 'react-router-dom';
 import { useQuizzes } from '../context/QuizContext';
 import '../styles/createQuiz.css';
 
 export default function CreateQuiz() {
-  const { addNewQuiz } = useQuizzes();
+  const { id } = useParams(); // Get the id from the url for editing page
+  const { addNewQuiz, quizzes, updateQuiz } = useQuizzes(); // get methods forom QuizContext (Formally known as localStorageManager) 
   const navigate = useNavigate();
 
+  // useMemo, stable reference of the default state
+  const initialQuestionState = useMemo(() => ([
+    { question: '', options: ['', ''], answer: '' }
+  ]), []);
+  
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  
-  const [questions, setQuestions] = useState([
-    { question: '', options: ['', ''], answer: '' }
-  ]);
+  const [questions, setQuestions] = useState(initialQuestionState);
+  const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // useEffect to Load Quiz Data for Editing
+  useEffect(() => {
+    if (id) {
+      setIsEditing(true);
+      const quizToEdit = quizzes.find(q => String(q.id) === String(id));
+      
+      if (quizToEdit) {
+        setTitle(quizToEdit.title || '');
+        setDescription(quizToEdit.description || '');
+        
+        // Use a deep copy of questions to ensure state integrity
+        const questionsToLoad = quizToEdit.questions && quizToEdit.questions.length > 0
+            ? quizToEdit.questions
+            : initialQuestionState; 
+            
+        setQuestions(JSON.parse(JSON.stringify(questionsToLoad)));
+      } else {
+        alert("Quiz not found!");
+        navigate('/'); 
+      }
+    } else {
+        setIsEditing(false);
+        // Reset state for new quiz creation
+        setTitle('');
+        setDescription('');
+        setQuestions(initialQuestionState);
+    }
+    setLoading(false);
+  }, [id, quizzes, navigate, initialQuestionState]);
+
+  // Question creation handlers
 
   const addQuestion = () => {
     setQuestions([...questions, { question: '', options: ['', ''], answer: '' }]);
@@ -26,16 +63,6 @@ export default function CreateQuiz() {
   const handleQuestionTextChange = (index, text) => {
     const updated = [...questions];
     updated[index].question = text;
-    setQuestions(updated);
-  };
-
-  const handleOptionChange = (qIndex, optIndex, text) => {
-    const updated = [...questions];
-    updated[qIndex].options[optIndex] = text;
-    
-    if (updated[qIndex].answer === questions[qIndex].options[optIndex]) {
-       updated[qIndex].answer = text;
-    }
     setQuestions(updated);
   };
 
@@ -57,6 +84,20 @@ export default function CreateQuiz() {
 
     setQuestions(updated);
   };
+  
+
+  // State change when creating or editing
+
+  const handleOptionChange = (qIndex, optIndex, text) => {
+    const updated = [...questions];
+    updated[qIndex].options[optIndex] = text;
+    
+    // If the text of the selected correct answer is changed, update the answer field too.
+    if (updated[qIndex].answer === questions[qIndex].options[optIndex]) {
+       updated[qIndex].answer = text;
+    }
+    setQuestions(updated);
+  };
 
   const handleCorrectAnswerChange = (qIndex, value) => {
     const updated = [...questions];
@@ -64,33 +105,69 @@ export default function CreateQuiz() {
     setQuestions(updated);
   };
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!title.trim()) return alert('Please enter a quiz title');
-    
-    const isValid = questions.every(q => 
-      q.question.trim() && 
-      q.answer && 
-      q.options.every(opt => opt.trim())
-    );
-
-    if (!isValid) {
-      return alert('Please fill out all questions, options, and select a correct answer for each.');
+    if(!validSubmit()){
+      return false; 
     }
 
-    addNewQuiz({
-      title,
-      description,
-      questions
-    });
+    const quizData = { title, description, questions };
+
+    if (isEditing) {
+      updateQuiz(id, quizData);
+      alert(`Quiz "${title}" updated successfully!`);
+    } else {
+      addNewQuiz(quizData);
+      alert(`New quiz "${title}" created successfully!`);
+    }
 
     navigate('/'); 
   };
 
+  const validSubmit = () => {
+    // Validate submition
+    // title
+    if (!title.trim()) { alert('Please enter a quiz title'); return false}
+
+    // questions text(does every question text exists)
+    if(
+      questions.forEach( (question) => {
+          if (!question.question.trim()) return false;
+        }
+      )
+    ) { alert('Please fill out every question text'); return false; }
+  
+    // questions text(is every question text valid)
+    if(
+      questions.forEach( (question) => {
+        // validation goes here, but for now we do not care about it
+        return true;
+      }
+    )
+    ) { alert('Question text is not valid'); return false;}
+
+    // every question has an answer
+    if(
+      questions.forEach( (question) => {
+        if(!question.answer) return true;
+      }
+    )
+    ) { alert('Please check every question answer'); return false;}
+
+    return true;
+  }
+  
+  if (loading) return (
+    <div className="create-quiz-container">
+        <h2>Loading Quiz...</h2>
+    </div>
+  );
+
   return (
     <div className="create-quiz-container">
-      <h2>Create a New Quiz</h2>
+      <h2>{isEditing ? `Edit Quiz: ${title}` : 'Create a New Quiz'}</h2>
       
       <form onSubmit={handleSubmit}>
         <div className="form-group">
@@ -156,6 +233,7 @@ export default function CreateQuiz() {
                     className="delete-option-btn"
                     onClick={() => removeOption(qIndex, optIndex)}
                     title="Delete this option"
+                    disabled={q.options.length <= 2} // Prevent deletion if only 2 options remain
                 >
                     X
                 </button>
@@ -164,7 +242,7 @@ export default function CreateQuiz() {
             
             <div className="question-actions">
                 <button type="button" className="btn-sm" onClick={() => addOption(qIndex)}>+ Add Option</button>
-                <button type="button" className="btn-sm btn-remove" onClick={() => removeQuestion(qIndex)}>Remove Question</button>
+                <button type="button" className="btn-sm btn-remove" onClick={() => removeQuestion(qIndex)} disabled={questions.length <= 1}>Remove Question</button>
             </div>
           </fieldset>
         ))}
@@ -172,7 +250,7 @@ export default function CreateQuiz() {
         <button type="button" className="btn-add-question" onClick={addQuestion}>+ Add New Question</button>
         
         <br/>
-        <button type="submit" className="btn-save">Save Quiz</button>
+        <button type="submit" className="btn-save">{isEditing ? 'Save Changes' : 'Save Quiz'}</button>
         <Link to="/"><button type="button" className="btn-cancel">Cancel</button></Link>
       </form>
     </div>

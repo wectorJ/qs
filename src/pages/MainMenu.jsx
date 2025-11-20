@@ -50,7 +50,6 @@ export default function MainMenu() {
   );
 }
 
-// Sub-component for the Card to handle Dropdown state independently
 function QuizCard({ quiz, navigate, onDelete }) {
   const [showMenu, setShowMenu] = useState(false);
 
@@ -59,7 +58,7 @@ function QuizCard({ quiz, navigate, onDelete }) {
   };
 
   const toggleMenu = (e) => {
-    e.stopPropagation(); // Prevents starting the quiz
+    e.stopPropagation(); 
     setShowMenu(!showMenu);
   };
 
@@ -71,8 +70,8 @@ function QuizCard({ quiz, navigate, onDelete }) {
 
   const handleEdit = (e) => {
     e.stopPropagation();
-    alert("Edit functionality coming soon!"); 
-    // You would navigate to `/edit/${quiz.id}` here
+    // Navigate to the edit route with the quiz ID
+    navigate(`/edit/${quiz.id}`); 
     setShowMenu(false);
   };
 
@@ -83,15 +82,15 @@ function QuizCard({ quiz, navigate, onDelete }) {
         <p>{quiz.questions?.length || 0} Questions</p>
       </div>
 
-      {/* The Three Dots Menu Button */}
       <div className="menu-dots-wrapper">
         <button className="dots-btn" onClick={toggleMenu}>
-          &#8942; {/* HTML Entity for vertical dots */}
+          &#8942;
         </button>
 
         {showMenu && (
           <div className="dropdown-menu">
-            <button onClick={handleEdit}>Edit</button>
+            {/* LINKED TO NEW HANDLER */}
+            <button onClick={handleEdit}>Edit</button> 
             <button onClick={handleDelete} className="delete-option">Delete</button>
           </div>
         )}
