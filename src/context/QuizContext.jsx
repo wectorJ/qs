@@ -1,10 +1,12 @@
 import { createContext, useState, useEffect, useContext } from 'react';
+import { useAlert } from '../components/AlertProvider';
 import quizDataRaw from './quises_data.json'; 
 
 const QuizContext = createContext();
 
 export const QuizProvider = ({ children }) => {
   const [quizzes, setQuizzes] = useState([]);
+  const { showAlert } = useAlert();
 
   useEffect(() => {
     const storedData = localStorage.getItem('QuizesData');
@@ -49,10 +51,16 @@ export const QuizProvider = ({ children }) => {
   };
 
   const deleteQuiz = (id) => {
-    if (window.confirm('Are you sure you want to delete this quiz?')) {
-      const updated = quizzes.filter(q => String(q.id) !== String(id));
-      saveQuizzes(updated);
-    }
+    showAlert(
+      "Are you sure?",
+      [
+        { label: "Yes", onClick: () => { 
+          const updated = quizzes.filter(q => String(q.id) !== String(id));
+          saveQuizzes(updated);
+        }},
+        { label: "No more I am", onClick: () => {} },
+      ]
+    )
   };
 
   const updateQuiz = (id, quizData) => {

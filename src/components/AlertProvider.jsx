@@ -1,21 +1,40 @@
-import { createContext, useContext, useState, useCallback } from 'react';
-import '../styles/alert.css';
+import { createContext, useContext, useState, useCallback } from "react";
+import "../styles/alert.css";
 
 const AlertContext = createContext();
 
 export function AlertProvider({ children }) {
   const [alertConfig, setAlertConfig] = useState({
-    message: '',
+    message: "",
     buttons: [],
     visible: false,
   });
 
+  const [resolver, setResolver] = useState(null);
+
   const showAlert = useCallback((message, buttons = []) => {
-    setAlertConfig({ message, buttons, visible: true });
+    return new Promise((resolve) => {
+      setResolver(() => resolve);
+
+      const wrappedButtons = buttons.map((btn) => ({
+        ...btn,
+        onClick: () => {
+          btn.onClick && btn.onClick();
+          resolve(btn.label);
+          hideAlert();
+        },
+      }));
+
+      setAlertConfig({
+        message,
+        buttons: wrappedButtons,
+        visible: true,
+      });
+    });
   }, []);
 
   const hideAlert = useCallback(() => {
-    setAlertConfig(prev => ({ ...prev, visible: false }));
+    setAlertConfig((prev) => ({ ...prev, visible: false }));
   }, []);
 
   return (
@@ -31,10 +50,7 @@ export function AlertProvider({ children }) {
                 <button
                   key={i}
                   className="alert-button"
-                  onClick={() => {
-                    btn.onClick && btn.onClick();
-                    hideAlert();
-                  }}
+                  onClick={btn.onClick}
                 >
                   {btn.label}
                 </button>

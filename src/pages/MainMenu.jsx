@@ -89,7 +89,6 @@ function QuizCard({ quiz, navigate, onDelete }) {
 
         {showMenu && (
           <div className="dropdown-menu">
-            {/* LINKED TO NEW HANDLER */}
             <button onClick={handleEdit}>Edit</button> 
             <button onClick={handleDelete} className="delete-option">Delete</button>
           </div>

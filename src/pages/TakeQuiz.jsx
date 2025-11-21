@@ -23,8 +23,9 @@ export default function TakeQuiz() {
 
     // If result exists (re-visiting a completed quiz)
     if (found?.result) {
-        // setSubmitted(true);
-        setScore({ correct: found.result.correct, total: found.result.total });
+      // Does not work btw, shows only correct, need to save the human answers from before for accurate dispay. And I dislike it, so I will not fix it Haha! 
+      // setSubmitted(true); // re-visiting a completed quiz. I dislike it, so ok, but know that I dislike it -_-
+      setScore({ correct: found.result.correct, total: found.result.total });
     }
   }, [id, quizzes]);
 
@@ -34,11 +35,11 @@ export default function TakeQuiz() {
     setAnswers(prev => ({ ...prev, [questionIndex]: value }));
   };
 
-  const handleSubmit = () => {
+  async function handleSubmit() {
     // Check if all questions are answered
     if (Object.keys(answers).length !== quiz.questions.length) {
-        showAlert("Please answer all questions before submitting.", [
-          { label: "Ok", onClick: () => {} }
+        await showAlert("Please answer all questions before submitting.", [
+          { label: "Ok" }
         ]); 
         return;
     }
@@ -52,7 +53,7 @@ export default function TakeQuiz() {
     const total = quiz.questions.length;
     const percentage = total ? Math.round((correctCount / total) * 100) : 0;
     
-    // Create Result Object
+    // result object
     const resultEntry = {
       quizId: quiz.id,
       title: quiz.title,
@@ -63,13 +64,13 @@ export default function TakeQuiz() {
       completedAt: new Date().toISOString(),
     };
 
-    // Save and Update State
+    // save and update state of the quiz
     updateQuizResult(quiz.id, resultEntry);
     setScore({ correct: correctCount, total });
     setSubmitted(true);
   };
   
-  // Helper to determine the class for visual feedback after submission
+
   const getOptionClass = (qIndex, opt) => {
       if (!submitted) return '';
       
@@ -90,7 +91,6 @@ export default function TakeQuiz() {
     <div className="quiz-container">
         <div className={`quiz-box ${submitted ? 'submitted' : ''}`}> 
             
-            {/* The "Menu" link */}
             <div 
                 className="menu-literal-link"
                 onClick={() => navigate('/')}
@@ -110,7 +110,6 @@ export default function TakeQuiz() {
                     {q.options.map((opt, optIndex) => (
                       <label 
                             key={optIndex} 
-                            // Apply highlighting class
                             className={`quiz-option ${getOptionClass(index, opt)}`} 
                         >
                         <input 

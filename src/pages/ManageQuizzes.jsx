@@ -32,10 +32,6 @@ export default function ManageQuizzes() {
                 </span>
               </div>
               
-              {/* Logic for "Edit" would go to a separate edit page or modal */}
-              <div>
-                 <button disabled>Edit (Coming Soon)</button>
-              </div>
             </div>
           ))
         )}

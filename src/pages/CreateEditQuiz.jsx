@@ -4,6 +4,7 @@ import { useQuizzes } from '../context/QuizContext';
 import { useAlert } from '../components/AlertProvider';
 import '../styles/createQuiz.css';
 
+
 export default function CreateQuiz() {
   const { id } = useParams(); // Get the id from the url for editing page
   const { addNewQuiz, quizzes, updateQuiz } = useQuizzes(); // get methods forom QuizContext (Formally known as localStorageManager) 
@@ -42,7 +43,6 @@ export default function CreateQuiz() {
         showAlert("Quiz not found", [
           { label: "Ok", onClick: () => { navigate('/'); } }
         ]); 
-        
       }
     } else {
         setIsEditing(false);
@@ -110,15 +110,14 @@ export default function CreateQuiz() {
     setQuestions(updated);
   };
 
+  
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(!validSubmit()){
-      return false; 
-    }
-
-    console.log(!validSubmit());
+    const isValid = await validSubmit();
+    if(!isValid) return;
+    
 
     const quizData = { title, description, questions };
 
@@ -132,7 +131,6 @@ export default function CreateQuiz() {
           } 
         }
       ]); 
-
     } else {
       showAlert(`New quiz "${title}" created successfully!`, [
         { 
@@ -144,54 +142,57 @@ export default function CreateQuiz() {
         }
       ]); 
     }
-
     
   };
 
-  const validSubmit = () => {
-    // Validate submition
-    // title
-    if (title.trim() == "") 
-    { 
-      showAlert("Please enter a quiz title", [ 
-        { label: "Ok", onClick: () => { return false; } }
-      ]);
+  const validSubmit = async () => {
+    // check title
+    if (!isValidTittleText(title)) {
+      await showAlert("Please enter a quiz title", [{ label: "Ok" }]);
+      return false;
     }
 
-    // questions text(does every question text exists)
-    if(questions.forEach( (question) => { if (!question.question.trim()) { return false; } } ) ) {
-      showAlert("Please fill out every question text", [ 
-        { label: "Ok", onClick: () => { return false; } }
-      ]);
+    // check decsription
+    if (!isValidDescriptionText(description)) {
+      await showAlert("Description text is not valid", [{ label: "Ok" }]);
+      return false;
     }
-  
-    // questions text(is every question text valid)
-    if(
-      questions.forEach( (question) => {
-        // validation goes here, but for now we do not care about it
-        return true;
-      }
-    )
-    ) {
-      showAlert("Question text is not valid", [ 
-        { label: "Ok", onClick: () => { return false; } }
-      ]);
+    
+    // question text validation
+    if (questions.some(q => !isValidQuestionText(q.question))) {
+      await showAlert("Question text is not valid", [{ label: "Ok" }]);
+      return false;
     }
 
-    // every question has an answer
-    if(
-      questions.forEach( (question) => {
-        if(!question.answer) return true;
-      }
-    )
-    ) {
-      showAlert("Please check every answer for every question", [ 
-        { label: "Ok", onClick: () => { return false; } }
-      ]);
+    // check every question has text
+    if (questions.some(q => !q.question || q.question.trim() === "")) {
+      await showAlert("Please fill out every question text", [{ label: "Ok" }]);
+      return false;
+    }
+
+    // check every question has an answer
+    if (questions.some(q => !q.answer || q.answer.trim() === "")) {
+      await showAlert("Please check every answer for every question", [{ label: "Ok" }]);
+      return false;
     }
 
     return true;
   }
+
+  const isValidQuestionText = (text) => {
+    return text.trim().length > 0;
+  }
+  
+  const isValidDescriptionText = (text) => {
+    return text.trim().length > 0;
+  }
+
+  const isValidTittleText = (text) => {
+    if(!text.trim()) return false;
+    if(text.trim().length <= 0) return false;
+    return true;
+  }
+
   
   if (loading) return (
     <div className="create-quiz-container">
