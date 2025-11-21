@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { QuizProvider } from './context/QuizContext';
 import MainMenu from './pages/MainMenu';
 import TakeQuiz from './pages/TakeQuiz';
@@ -9,18 +9,16 @@ import Footer from './components/Footer';
 function App() {
   return (
     <QuizProvider>
-      <Router>
-        <div className="container">
-           <Routes>
-             <Route path="/" element={<MainMenu />} />
-             <Route path="/quiz/:id" element={<TakeQuiz />} />
-             <Route path="/results" element={<Results />} />
-             <Route path="/create" element={<CreateEditQuiz />} />
-             <Route path="/edit/:id" element={<CreateEditQuiz />} /> 
-           </Routes>
-        </div>
-        <Footer />
-      </Router>
+      <div className="container">
+        <Routes>
+          <Route path="/" element={<MainMenu />} />
+          <Route path="/quiz/:id" element={<TakeQuiz />} />
+          <Route path="/results" element={<Results />} />
+          <Route path="/create" element={<CreateEditQuiz />} />
+          <Route path="/edit/:id" element={<CreateEditQuiz />} /> 
+        </Routes>
+      </div>
+      <Footer />
     </QuizProvider>
   );
 }

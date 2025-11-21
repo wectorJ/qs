@@ -1,8 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import { useQuizzes } from '../context/QuizContext';
-import { useAlert } from '../components/Alert';
-import Alert from '../components/Alert';
+import { useAlert } from '../components/AlertProvider';
 import '../styles/createQuiz.css';
 
 export default function CreateQuiz() {
@@ -10,7 +9,7 @@ export default function CreateQuiz() {
   const { addNewQuiz, quizzes, updateQuiz } = useQuizzes(); // get methods forom QuizContext (Formally known as localStorageManager) 
   const navigate = useNavigate();
 
-  const { alertConfig, showAlert, hideAlert } = useAlert();
+  const { showAlert } = useAlert();
 
   // useMemo, stable reference of the default state
   const initialQuestionState = useMemo(() => ([
@@ -41,7 +40,7 @@ export default function CreateQuiz() {
         setQuestions(JSON.parse(JSON.stringify(questionsToLoad)));
       } else {
         showAlert("Quiz not found", [
-          { label: "Ok", onClick: () => { hideAlert(); navigate('/'); } }
+          { label: "Ok", onClick: () => { navigate('/'); } }
         ]); 
         
       }
@@ -129,7 +128,6 @@ export default function CreateQuiz() {
           label: "Ok", 
           onClick: () => { 
             updateQuiz(id, quizData); 
-            hideAlert();
             navigate('/');
           } 
         }
@@ -141,7 +139,6 @@ export default function CreateQuiz() {
           label: "Ok", 
           onClick: () => { 
             addNewQuiz(quizData); 
-            hideAlert();
             navigate('/');
           } 
         }
@@ -289,7 +286,6 @@ export default function CreateQuiz() {
         <br/>
         <button type="submit" className="btn-save">{isEditing ? 'Save Changes' : 'Save Quiz'}</button>
         <Link to="/"><button type="button" className="btn-cancel">Cancel</button></Link>
-        <Alert alertConfig={alertConfig} hideAlert={hideAlert} />
       </form>
     </div>
   );

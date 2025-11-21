@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuizzes } from '../context/QuizContext';
-import { useAlert } from '../components/Alert';
-import Alert from '../components/Alert';
+import { useAlert } from '../components/AlertProvider';
 import '../styles/takeQuiz.css';
 
 export default function TakeQuiz() {
@@ -10,7 +9,7 @@ export default function TakeQuiz() {
   const navigate = useNavigate();
   const { quizzes, updateQuizResult } = useQuizzes();
 
-  const { alertConfig, showAlert, hideAlert } = useAlert();
+  const { showAlert } = useAlert();
 
   
   const [quiz, setQuiz] = useState(null);
@@ -137,7 +136,6 @@ export default function TakeQuiz() {
                     <button onClick={() => navigate('/')}>Back to Menu</button>
                   </div>
                 )}
-                <Alert alertConfig={alertConfig} hideAlert={hideAlert} />
             </form>
         </div>
     </div>
