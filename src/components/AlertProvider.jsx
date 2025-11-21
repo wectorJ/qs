@@ -12,7 +12,7 @@ export function AlertProvider({ children }) {
 
   const [resolver, setResolver] = useState(null);
 
-  const showAlert = useCallback((message, buttons = []) => {
+  const showAlert = useCallback((message, buttons = [], image_src) => {
     return new Promise((resolve) => {
       setResolver(() => resolve);
 
@@ -28,8 +28,11 @@ export function AlertProvider({ children }) {
       setAlertConfig({
         message,
         buttons: wrappedButtons,
+        image_src: "../src/res/dancing.gif",
+        // image_src,
         visible: true,
       });
+      
     });
   }, []);
 
@@ -45,6 +48,7 @@ export function AlertProvider({ children }) {
         <div className="alert-overlay">
           <div className="alert-box">
             <p className="alert-message">{alertConfig.message}</p>
+            <img src={alertConfig.image_src} alt=""/>
             <div className="alert-buttons">
               {alertConfig.buttons.map((btn, i) => (
                 <button
