@@ -12,7 +12,7 @@ export function AlertProvider({ children }) {
 
   const [resolver, setResolver] = useState(null);
 
-  const showAlert = useCallback((message, buttons = [], image_src) => {
+  const showAlert = useCallback((message, buttons = [], image_src = "") => {
     return new Promise((resolve) => {
       setResolver(() => resolve);
 

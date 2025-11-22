@@ -268,7 +268,7 @@ export default function CreateQuiz() {
                     className="delete-option-btn"
                     onClick={() => removeOption(qIndex, optIndex)}
                     title="Delete this option"
-                    disabled={q.options.length <= 2} // Prevent deletion if only 2 options remain
+                    disabled={q.options.length <= 1} // Prevent deletion if only 2 options remain
                 >
                     X
                 </button>
