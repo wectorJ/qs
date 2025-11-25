@@ -93,7 +93,7 @@ export default function TakeQuiz() {
             
             <div 
                 className="menu-literal-link"
-                onClick={() => navigate('/')}
+                onClick={() => navigate('/quizmunism')}
             >
                 Menu
             </div>
@@ -132,7 +132,7 @@ export default function TakeQuiz() {
                   <div className="quiz-result">
                     <h3>You scored {score.correct} out of {score.total}!</h3>
                         <p style={{marginBottom: '20px'}}>Your result has been saved.</p>
-                    <button onClick={() => navigate('/')}>Back to Menu</button>
+                    <button onClick={() => navigate('/quizmunism/')}>Back to Menu</button>
                   </div>
                 )}
             </form>

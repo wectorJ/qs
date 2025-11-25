@@ -19,8 +19,8 @@ export default function MainMenu() {
         </div>
 
         <div className="header-row">
-          <h1 className="menu-title">My Quizzes</h1>
-          <Link to="/create">
+          <h1 className="menu-title">Our Quizzes</h1>
+          <Link to="/quizmunism/create">
             <button className="create-btn">+ New Quiz</button>
           </Link>
         </div>
@@ -42,7 +42,7 @@ export default function MainMenu() {
 
         {/* Link to Results remains at the bottom */}
         <div style={{marginTop: '30px'}}>
-            <Link to="/results" className="secondary-link">View Past Results</Link>
+            <Link to="/quizmunism/results" className="secondary-link">View Past Results</Link>
         </div>
 
       </div>

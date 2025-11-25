@@ -42,7 +42,7 @@ export default function CreateQuiz() {
         setQuestions(JSON.parse(JSON.stringify(questionsToLoad)));
       } else {
         showAlert("Quiz not found", [
-          { label: "Ok", onClick: () => { navigate('/'); } }
+          { label: "Ok", onClick: () => { navigate('/quizmunism/'); } }
         ]); 
       }
     } else {
@@ -76,7 +76,7 @@ export default function CreateQuiz() {
           label: "Ok", 
           onClick: () => { 
             updateQuiz(id, quizData); 
-            navigate('/');
+            navigate('/quizmunism/');
           } 
         }
       ]); 
@@ -86,7 +86,7 @@ export default function CreateQuiz() {
           label: "Ok", 
           onClick: () => { 
             addNewQuiz(quizData); 
-            navigate('/');
+            navigate('/quizmunism/');
           } 
         }
       ]); 
@@ -193,7 +193,7 @@ export default function CreateQuiz() {
         
         <br/>
         <button type="submit" className="btn-save">{isEditing ? 'Save Changes' : 'Save Quiz'}</button>
-        <Link to="/"><button type="button" className="btn-cancel">Cancel</button></Link>
+        <Link to="/quizmunism/"><button type="button" className="btn-cancel">Cancel</button></Link>
       </form>
     </div>
   );
