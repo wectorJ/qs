@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import { useQuizzes } from '../context/QuizContext';
 import { useAlert } from '../components/AlertProvider';
+import { QuestionCreateEdit } from '../components/QuestionCreateEdit';
 import '../styles/createQuiz.css';
 
 
@@ -59,59 +60,7 @@ export default function CreateQuiz() {
   const addQuestion = () => {
     setQuestions([...questions, { question: '', options: ['', ''], answer: '' }]);
   };
-
-  const removeQuestion = (index) => {
-    const updated = questions.filter((_, i) => i !== index);
-    setQuestions(updated);
-  };
-
-  const handleQuestionTextChange = (index, text) => {
-    const updated = [...questions];
-    updated[index].question = text;
-    setQuestions(updated);
-  };
-
-  const addOption = (qIndex) => {
-    const updated = [...questions];
-    updated[qIndex].options.push('');
-    setQuestions(updated);
-  };
-
-  const removeOption = (qIndex, optIndex) => {
-    const updated = [...questions];
-    const optionToRemove = updated[qIndex].options[optIndex];
-
-    updated[qIndex].options = updated[qIndex].options.filter((_, i) => i !== optIndex);
-
-    if (updated[qIndex].answer === optionToRemove) {
-        updated[qIndex].answer = ''; 
-    }
-
-    setQuestions(updated);
-  };
   
-
-  // State change when creating or editing
-
-  const handleOptionChange = (qIndex, optIndex, text) => {
-    const updated = [...questions];
-    
-    // If the text of the selected correct answer is changed, update the answer field too.
-    if (updated[qIndex].answer === questions[qIndex].options[optIndex]) {
-      updated[qIndex].answer = text;
-    }
-    updated[qIndex].options[optIndex] = text;
-    setQuestions(updated);
-  };
-
-  const handleCorrectAnswerChange = (qIndex, value) => {
-    const updated = [...questions];
-    updated[qIndex].answer = value;
-    setQuestions(updated);
-  };
-
-  
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -208,6 +157,7 @@ export default function CreateQuiz() {
         <div className="form-group">
           <label>Quiz Title:</label><br/>
           <input 
+            required
             type="text" 
             className="form-input"
             value={title} 
@@ -219,6 +169,7 @@ export default function CreateQuiz() {
         <div className="form-group">
           <label>Description:</label><br/>
           <textarea 
+            required
             className="form-textarea"
             value={description} 
             onChange={e => setDescription(e.target.value)} 
@@ -229,57 +180,13 @@ export default function CreateQuiz() {
         <hr />
 
         {questions.map((q, qIndex) => (
-          <fieldset key={qIndex} className="question-fieldset">
-            <legend>Question {qIndex + 1}</legend>
-            
-            <input 
-              type="text" 
-              className="question-input"
-              placeholder="Enter question text"
-              value={q.question}
-              onChange={(e) => handleQuestionTextChange(qIndex, e.target.value)}
-            />
-
-            <p className="options-label">Options (Select the radio button for the correct answer):</p>
-            
-            {q.options.map((opt, optIndex) => (
-              <div key={optIndex} className="option-row">
-                {/* Radio Button */}
-                <input 
-                  type="radio" 
-                  name={`correct-answer-${qIndex}`} 
-                  checked={q.answer === opt && opt !== ''} 
-                  onChange={() => handleCorrectAnswerChange(qIndex, opt)}
-                  disabled={opt === ''}
-                />
-
-                {/* Text Input */}
-                <input 
-                  type="text"
-                  className="option-text-input"
-                  placeholder={`Option ${optIndex + 1}`}
-                  value={opt}
-                  onChange={(e) => handleOptionChange(qIndex, optIndex, e.target.value)}
-                />
-
-                {/* X Button */}
-                <button 
-                    type="button" 
-                    className="delete-option-btn"
-                    onClick={() => removeOption(qIndex, optIndex)}
-                    title="Delete this option"
-                    disabled={q.options.length <= 1} // Prevent deletion if only 2 options remain
-                >
-                    X
-                </button>
-              </div>
-            ))}
-            
-            <div className="question-actions">
-                <button type="button" className="btn-sm" onClick={() => addOption(qIndex)}>+ Add Option</button>
-                <button type="button" className="btn-sm btn-remove" onClick={() => removeQuestion(qIndex)} disabled={questions.length <= 1}>Remove Question</button>
-            </div>
-          </fieldset>
+          <QuestionCreateEdit
+            key={qIndex}
+            qIndex={qIndex}
+            q={q}
+            setQuestions={setQuestions}
+            questions={questions}
+          />
         ))}
 
         <button type="button" className="btn-add-question" onClick={addQuestion}>+ Add New Question</button>

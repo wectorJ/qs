@@ -4,7 +4,7 @@ import MainMenu from './pages/MainMenu';
 import TakeQuiz from './pages/TakeQuiz';
 import Results from './pages/Results';
 import CreateEditQuiz from './pages/CreateEditQuiz';
-import Footer from './components/Footer';
+import Footer from './components/Footer'
 
 function App() {
   return (
