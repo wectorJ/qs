@@ -4,7 +4,7 @@ export function QuizCard({ quiz, navigate, onDelete }) {
   const [showMenu, setShowMenu] = useState(false);
 
   const handleCardClick = () => {
-    navigate(`/quiz/${quiz.id}`);
+    navigate(`/quizmunism/quiz/${quiz.id}`);
   };
 
   const toggleMenu = (e) => {
@@ -21,7 +21,7 @@ export function QuizCard({ quiz, navigate, onDelete }) {
   const handleEdit = (e) => {
     e.stopPropagation();
     // Navigate to the edit route with the quiz ID
-    navigate(`/edit/${quiz.id}`); 
+    navigate(`/quizmunism/edit/${quiz.id}`); 
     setShowMenu(false);
   };
 

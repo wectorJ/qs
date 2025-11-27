@@ -40,7 +40,7 @@ export default function Results() {
         </div>
 
         <div className="back-btn-container">
-          <button className="back-btn" onClick={() => navigate('/')}>
+          <button className="back-btn" onClick={() => navigate('/quizmunism/')}>
             Back to Menu
           </button>
         </div>

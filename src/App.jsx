@@ -11,11 +11,11 @@ function App() {
     <QuizProvider>
       <div className="container">
         <Routes>
-          <Route path="/" element={<MainMenu />} />
-          <Route path="/quiz/:id" element={<TakeQuiz />} />
-          <Route path="/results" element={<Results />} />
-          <Route path="/create" element={<CreateEditQuiz />} />
-          <Route path="/edit/:id" element={<CreateEditQuiz />} /> 
+          <Route path="/quizmunism" element={<MainMenu />} />
+          <Route path="/quizmunism/quiz/:id" element={<TakeQuiz />} />
+          <Route path="/quizmunism/results" element={<Results />} />
+          <Route path="/quizmunism/create" element={<CreateEditQuiz />} />
+          <Route path="/quizmunism/edit/:id" element={<CreateEditQuiz />} /> 
         </Routes>
       </div>
       <Footer />
