@@ -1,5 +1,6 @@
 import { useQuizzes } from '../context/QuizContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { QuizResultCard } from '../components/QuizResultCard'
 import '../styles/results.css'; // Import the new CSS
 
 export default function Results() {
@@ -39,7 +40,7 @@ export default function Results() {
         </div>
 
         <div className="back-btn-container">
-          <button className="back-btn" onClick={() => navigate('/')}>
+          <button className="back-btn" onClick={() => navigate('/quizmunism/')}>
             Back to Menu
           </button>
         </div>
@@ -49,24 +50,3 @@ export default function Results() {
   );
 }
 
-function QuizResultCard({ quiz }) {
-  const { result } = quiz;
-  const date = result.completedAt ? new Date(result.completedAt).toLocaleString() : 'N/A';
-
-  return (
-    <article className="result-card">
-      <h2>
-        <Link to={`/quiz/${quiz.id}`}>{result.title}</Link>
-      </h2>
-      
-      <p className="result-description">{result.description}</p>
-      
-      <div className="result-meta">
-        <span className="score-badge">
-          Score: {result.correct} / {result.total} ({result.percentage}%)
-        </span>
-        <span className="date-text">{date}</span>
-      </div>
-    </article>
-  );
-}
