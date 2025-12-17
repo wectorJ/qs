@@ -47,7 +47,7 @@ export default function TakeQuiz() {
     // Score Calculation
     let correctCount = 0;
     quiz.questions.forEach((q, index) => {
-      if (answers[index] === q.answer) correctCount++;
+      if (answers[index] === q.answer) correctCount+=q.value;
     });
 
     const total = quiz.questions.length;

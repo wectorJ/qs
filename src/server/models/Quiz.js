@@ -11,7 +11,8 @@ const QuizSchema = new mongoose.Schema({     // model for quizzes
   id: { type: Number, unique: true },
   title: { type: String, required: true },
   description: { type: String },
-  questions: [QuestionSchema]
+  questions: [QuestionSchema],
+  result: []
 });
 
 module.exports = mongoose.model('Quiz', QuizSchema);
