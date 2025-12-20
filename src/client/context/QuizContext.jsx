@@ -24,14 +24,23 @@ export const QuizProvider = ({ children }) => {
       .catch(err => console.error("Error refreshing quizzes:", err));
   };
 
-  const updateQuizResult = (id, resultData) => {
-    // Results are kept in local state only for now
-    setQuizzes(prev => prev.map(q => {
-      if (String(q.id) === String(id)) {
-        return { ...q, result: resultData };
-      }
-      return q;
-    }));
+  const updateQuizResult = async (id, resultData) => {
+    try {
+      await fetch(`${BASE_URL}/${id}/result`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ result: resultData })
+      });
+      // Update local state
+      setQuizzes(prev => prev.map(q => {
+        if (String(q.id) === String(id)) {
+          return { ...q, result: resultData };
+        }
+        return q;
+      }));
+    } catch (err) {
+      console.error("Error saving quiz result:", err);
+    }
   };
 
   const addNewQuiz = async (newQuizData) => {
