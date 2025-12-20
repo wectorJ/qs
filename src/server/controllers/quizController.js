@@ -65,3 +65,20 @@ exports.updateQuiz = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// save quiz result
+exports.updateQuizResult = async (req, res) => {
+  try {
+    const updatedQuiz = await Quiz.findOneAndUpdate(
+      { id: req.params.id },
+      { result: req.body.result },
+      { new: true }
+    );
+    console.log("Quiz result saved for id:", req.params.id);
+    res.json(updatedQuiz);
+  } catch (err) {
+    console.log("Error saving quiz result:");
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+};
