@@ -14,7 +14,7 @@ export default function Results() {
     <div className="results-container">
       <div className="results-box">
         
-        {/* The "Menu" literal link for consistency */}
+        {/* The "Menu" link */}
         <div 
           className="menu-literal-link"
           onClick={() => window.location.href = "https://youtu.be/dQw4w9WgXcQ?si=ikjNhtlICjVDam4U"}

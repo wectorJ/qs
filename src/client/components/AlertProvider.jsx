@@ -28,7 +28,7 @@ export function AlertProvider({ children }) {
       setAlertConfig({
         message,
         buttons: wrappedButtons,
-        image_src: "../src/res/dancing.gif",
+        image_src: "../src/client/res/dancing.gif",
         // image_src,
         visible: true,
       });
