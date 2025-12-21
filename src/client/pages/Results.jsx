@@ -23,7 +23,7 @@ export default function Results() {
         </div>
 
         <div className="results-header">
-           <h1 className="results-title">Your Results</h1>
+          <h1 className="results-title">Your Results</h1>
         </div>
 
         <div className="results-list">
