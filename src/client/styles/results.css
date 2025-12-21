@@ -1,5 +1,5 @@
 .results-container {
-  background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+  /* background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); */
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -14,6 +14,7 @@
   box-shadow: 0 10px 25px rgba(0,0,0,0.1);
   width: 100%;
   max-width: 600px;
+  min-width: 350px;
   position: relative;
   min-height: 400px;
   display: flex;
@@ -81,16 +82,26 @@
 .result-description {
   font-size: 0.9rem;
   color: #666;
+  text-align: center;
   margin: 0;
 }
 
 .result-meta {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 10px;
   margin-top: 10px;
   font-size: 0.9rem;
+  align-items: stretch;
 }
+
+.result-meta-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 
 .score-badge {
   font-weight: bold;
@@ -136,4 +147,43 @@
   cursor: pointer;
   text-decoration: none;
   font-weight: bold;
+}
+
+.score-message {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  align-self: center; /* left-align under content */
+  margin-left: 0;
+  white-space: nowrap;
+}
+
+
+
+/* Perfect score */
+.score-message.perfect {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  color: white;
+  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.35);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Not perfect */
+.score-message.imperfect {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+  box-shadow: 0 4px 12px rgba(192, 57, 43, 0.35);
+}
+
+
+
+/* Optional subtle animation */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
 }
