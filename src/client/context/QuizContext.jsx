@@ -8,33 +8,42 @@ export const QuizProvider = ({ children }) => {
   const [quizzes, setQuizzes] = useState([]);
   const { showAlert } = useAlert();
 
-  // Fetch quizzes from backend
+  // Shared function to fetch quizzes from backend
+  const fetchQuizzes = async () => {
+    try {
+      const res = await fetch(BASE_URL);
+      const data = await res.json();
+      setQuizzes(data);
+    } catch (err) {
+      console.error("Error fetching quizzes:", err);
+    }
+  };
+
+  // initial load
   useEffect(() => {
-    fetch(BASE_URL)
-      .then(res => res.json())
-      .then(data => setQuizzes(data))
-      .catch(err => console.error("Error fetching quizzes:", err));
+    fetchQuizzes();
   }, []);
 
-  // Helper to update local state after backend change
+  // update after backend change
   const refreshQuizzes = () => {
-    fetch(BASE_URL)
-      .then(res => res.json())
-      .then(data => setQuizzes(data))
-      .catch(err => console.error("Error refreshing quizzes:", err));
+    fetchQuizzes();
   };
 
   const updateQuizResult = async (id, resultData) => {
     try {
-      await fetch(`${BASE_URL}/${id}/result`, {
+        const res = await fetch(`${BASE_URL}/${id}/result`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ result: resultData })
       });
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
       // Update local state
       setQuizzes(prev => prev.map(q => {
-        if (String(q.id) === String(id)) {
-          return { ...q, result: resultData };
+          if (String(q.id) === String(id)) {
+            return { ...q, result: resultData };
         }
         return q;
       }));
@@ -65,8 +74,10 @@ export const QuizProvider = ({ children }) => {
         { label: "Yes", onClick: async () => { 
           try {
             await fetch(`${BASE_URL}/${id}`, { method: 'DELETE' });
+            showAlert("Quiz deleted successfully", [{ label: "OK", onClick: () => {} }]);
             refreshQuizzes();
           } catch (err) {
+            showAlert("Oh no! Quiz deletion failed", [{ label: "OK", onClick: () => {} }]);
             console.error("Error deleting quiz:", err);
           }
         }},

@@ -40,7 +40,7 @@ export default function MainMenu() {
           )}
         </div>
 
-        {/* Link to Results remains at the bottom */}
+        {/* results remains at the bottom */}
         <div style={{marginTop: '30px'}}>
             <Link to="/quizmunism/results" className="secondary-link">View Past Results</Link>
         </div>

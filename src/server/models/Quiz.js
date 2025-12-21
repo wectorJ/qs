@@ -12,7 +12,7 @@ const QuizSchema = new mongoose.Schema({     // model for quizzes
   title: { type: String, required: true },
   description: { type: String },
   questions: [QuestionSchema],
-  result: { type: Object, default: null }  // результаты прохождения квиза
+  result: { type: Object, default: null }  // to store quiz result data
 });
 
 module.exports = mongoose.model('Quiz', QuizSchema);
