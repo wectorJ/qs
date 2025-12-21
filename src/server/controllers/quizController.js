@@ -1,5 +1,10 @@
 const Quiz = require('../models/Quiz');
 
+// 200 - ok
+// 300 - redirect
+// 400 - client error
+// 500 - server error
+
 // get all quizzes
 exports.getQuizzes = async (req, res) => {
   try {

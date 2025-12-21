@@ -10,7 +10,7 @@ import { QuizDescriptionInput } from '../components/CreateEdit/QuizDescriptionIn
 
 export default function CreateQuiz() {
   const { id } = useParams(); // Get the id from the url for editing page
-  const { addNewQuiz, quizzes, updateQuiz } = useQuizzes(); // get methods forom QuizContext (Formally known as localStorageManager) 
+  const { addNewQuiz, quizzes, updateQuiz } = useQuizzes(); // get methods forom QuizContext
   const navigate = useNavigate();
 
   const { showAlert } = useAlert();
