@@ -2,10 +2,10 @@ import { useState, useEffect, useMemo } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import { useQuizzes } from '../context/QuizContext';
 import { useAlert } from '../components/AlertProvider';
-import { QuestionCreateEdit } from '../components/QuestionCreateEdit';
-import { QuizTitleInput } from '../components/QuizTitleInput';
+import { QuestionCreateEdit } from '../components/CreateEdit/Question';
+import { QuizTitleInput } from '../components/CreateEdit/QuizTitleInput';
 import '../styles/createQuiz.css';
-import { QuizDescriptionInput } from '../components/QuizDescriptionInput';
+import { QuizDescriptionInput } from '../components/CreateEdit/QuizDescriptionInput';
 
 
 export default function CreateQuiz() {
@@ -27,6 +27,7 @@ export default function CreateQuiz() {
   const [loading, setLoading] = useState(true);
 
   const maxTittleLength = 50;
+  const maxDescriptionLength = 400;
 
   // useEffect to Load Quiz Data for Editing
   useEffect(() => {
@@ -111,10 +112,11 @@ export default function CreateQuiz() {
 
         <QuizTitleInput title={title} setTitle={setTitle} maxTittleLength={maxTittleLength} />
 
-        <QuizDescriptionInput description={description} setDescription={setDescription} />
+        <QuizDescriptionInput description={description} setDescription={setDescription} maxDescriptionLength={maxDescriptionLength} />
 
         <hr />
 
+        {/* Questions List */}
         {questions.map((q, qIndex) => (
           <QuestionCreateEdit
             key={qIndex}
