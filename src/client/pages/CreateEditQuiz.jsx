@@ -24,6 +24,8 @@ export default function CreateQuiz() {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const maxTittleLength = 50;
+
   // useEffect to Load Quiz Data for Editing
   useEffect(() => {
     if (id) {
@@ -34,10 +36,7 @@ export default function CreateQuiz() {
         setTitle(quizToEdit.title || '');
         setDescription(quizToEdit.description || '');
         
-        // Use a deep copy of questions to ensure state integrity
-        const questionsToLoad = quizToEdit.questions && quizToEdit.questions.length > 0
-            ? quizToEdit.questions
-            : initialQuestionState; 
+        const questionsToLoad = quizToEdit.questions && quizToEdit.questions.length > 0 ? quizToEdit.questions : initialQuestionState; 
             
         setQuestions(JSON.parse(JSON.stringify(questionsToLoad)));
       } else {
@@ -45,18 +44,21 @@ export default function CreateQuiz() {
           { label: "Ok", onClick: () => { navigate('/quizmunism/'); } }
         ]); 
       }
-    } else {
+    } 
+
+    else {
         setIsEditing(false);
         // Reset state for new quiz creation
         setTitle('');
         setDescription('');
         setQuestions(initialQuestionState);
     }
+
+
     setLoading(false);
   }, [id, quizzes, navigate, initialQuestionState]);
 
   // Question creation handlers
-
   const addQuestion = () => {
     setQuestions([...questions, { question: '', options: ['', ''], answer: '' }]);
   };
@@ -64,11 +66,9 @@ export default function CreateQuiz() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const isValid = await validSubmit();
-    if(!isValid) return;
-    
-
     const quizData = { title, description, questions };
+
+
 
     if (isEditing) {
       showAlert(`Quiz "${title}" updated successfully!`, [
@@ -94,54 +94,6 @@ export default function CreateQuiz() {
     
   };
 
-  const validSubmit = async () => {
-    // check title
-    if (!isValidTittleText(title)) {
-      await showAlert("Please enter a quiz title", [{ label: "Ok" }]);
-      return false;
-    }
-
-    // check decsription
-    if (!isValidDescriptionText(description)) {
-      await showAlert("Description text is not valid", [{ label: "Ok" }]);
-      return false;
-    }
-    
-    // question text validation
-    if (questions.some(q => !isValidQuestionText(q.question))) {
-      await showAlert("Question text is not valid", [{ label: "Ok" }]);
-      return false;
-    }
-
-    // check every question has text
-    if (questions.some(q => !q.question || q.question.trim() === "")) {
-      await showAlert("Please fill out every question text", [{ label: "Ok" }]);
-      return false;
-    }
-
-    // check every question has an answer
-    if (questions.some(q => !q.answer || q.answer.trim() === "")) {
-      await showAlert("Please check every answer for every question", [{ label: "Ok" }]);
-      return false;
-    }
-
-    return true;
-  }
-
-  const isValidQuestionText = (text) => {
-    return text.trim().length > 0;
-  }
-  
-  const isValidDescriptionText = (text) => {
-    return text.trim().length > 0;
-  }
-
-  const isValidTittleText = (text) => {
-    if(!text.trim()) return false;
-    if(text.trim().length <= 0) return false;
-    return true;
-  }
-
   
   if (loading) return (
     <div className="create-quiz-container">
@@ -155,7 +107,12 @@ export default function CreateQuiz() {
       
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Quiz Title:</label><br/>
+          <label>
+            Quiz Title:
+            <span style={{ marginLeft: "8px", fontSize: "0.9em", color: "#666" }}>
+              [{title.length} / {maxTittleLength} ] 
+            </span>
+          </label><br/>
           <input 
             required
             type="text" 
@@ -163,6 +120,7 @@ export default function CreateQuiz() {
             value={title} 
             onChange={e => setTitle(e.target.value)} 
             placeholder="e.g., Math Basics"
+            maxLength={maxTittleLength}
           />
         </div>
 
