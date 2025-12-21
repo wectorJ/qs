@@ -3,7 +3,9 @@ import { useNavigate, Link, useParams } from 'react-router-dom';
 import { useQuizzes } from '../context/QuizContext';
 import { useAlert } from '../components/AlertProvider';
 import { QuestionCreateEdit } from '../components/QuestionCreateEdit';
+import { QuizTitleInput } from '../components/QuizTitleInput';
 import '../styles/createQuiz.css';
+import { QuizDescriptionInput } from '../components/QuizDescriptionInput';
 
 
 export default function CreateQuiz() {
@@ -106,34 +108,10 @@ export default function CreateQuiz() {
       <h2>{isEditing ? `Edit Quiz: ${title}` : 'Create a New Quiz'}</h2>
       
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>
-            Quiz Title:
-            <span style={{ marginLeft: "8px", fontSize: "0.9em", color: "#666" }}>
-              [{title.length} / {maxTittleLength} ] 
-            </span>
-          </label><br/>
-          <input 
-            required
-            type="text" 
-            className="form-input"
-            value={title} 
-            onChange={e => setTitle(e.target.value)} 
-            placeholder="e.g., Math Basics"
-            maxLength={maxTittleLength}
-          />
-        </div>
 
-        <div className="form-group">
-          <label>Description:</label><br/>
-          <textarea 
-            required
-            className="form-textarea"
-            value={description} 
-            onChange={e => setDescription(e.target.value)} 
-            placeholder="Short description..."
-          />
-        </div>
+        <QuizTitleInput title={title} setTitle={setTitle} maxTittleLength={maxTittleLength} />
+
+        <QuizDescriptionInput description={description} setDescription={setDescription} />
 
         <hr />
 
