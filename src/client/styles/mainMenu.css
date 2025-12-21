@@ -1,5 +1,4 @@
 .menu-container {
-  background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -14,6 +13,7 @@
   box-shadow: 0 10px 25px rgba(0,0,0,0.1);
   width: 100%;
   max-width: 600px; /* Made wider for cards */
+  min-width: 350px;
   position: relative;
   min-height: 400px;
 }
@@ -65,7 +65,7 @@
 .quiz-card-item:hover {
   border-color: #000;
   background-color: #fff;
-  transform: translateY(-2px);
+  transform: translateY(-5px);
   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
   z-index: 999;
 }
@@ -118,7 +118,7 @@
   text-align: left;
   cursor: pointer;
   font-size: 14px;
-
+  z-index: 9999;
 }
 
 .dropdown-menu button:hover {
